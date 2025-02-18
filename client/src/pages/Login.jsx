@@ -38,9 +38,9 @@ const Login = () => {
                             placeholder="Enter Password..."
                         />
                     </div>
-                    {/* <p className='text-sm'>Don't have an account? <a href="/register" className='text-blue-600'>Register</a></p> */}
+                    <p className='text-sm'>Don't have an account? <a href="/register" className='text-blue-600'>Register</a></p>
                     <Button fullWidth>Login</Button>
-                    {/* <p><a href="/forgot" className='flex justify-center'>Forgot password?</a></p> */}
+                    <p><a href="/forgot" className='flex justify-center'>Forgot password?</a></p>
                 </form>
             </motion.div>
         </div>

@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import { Mail, Lock, Eye, EyeOff, User} from 'lucide-react';
 import { Button } from '@mantine/core';
 
-const Login = () => {
+const Register = () => {
     const [isEyeClick, setIsEyeClick] = useState(false);
     const [isEyeClicks, setIsEyeClicks] = useState(false);
 
@@ -27,14 +27,17 @@ const Login = () => {
                         <User className="text-gray-500 absolute left-2" />
                         <input
                             type="text"
+                            name="name"
                             className="focus:outline-none w-full border-b border-gray-300 pl-10"
-                            placeholder="Enter Username..."
+                            placeholder="Full Name"
+                            required
                         />
                     </div>
                     <div className="flex gap-2 relative  ">
                         <Mail className="text-gray-500 absolute left-2" />
                         <input
                             type="email"
+                            name="email"
                             className="focus:outline-none w-full border-b border-gray-300 pl-10"
                             placeholder="Enter Email..."
                         />
@@ -47,6 +50,7 @@ const Login = () => {
 
                         <input
                             type={isEyeClick ? 'text' : 'password'}
+                            name="password"
                             className="focus:outline-none w-full border-b border-gray-300 pl-10"
                             placeholder="Enter Password..."
                         />
@@ -60,6 +64,7 @@ const Login = () => {
 
                         <input
                             type={isEyeClicks ? 'text' : 'password'}
+                            name="confirmPassword"
                             className="focus:outline-none w-full border-b border-gray-300 pl-10"
                             placeholder="Enter Confirm Password..."
                         />
@@ -67,13 +72,13 @@ const Login = () => {
                     
 
 
-                    {/* <p className='text-sm'>By signing up, you agree to our <a href="/terms" className='text-blue-300'>Terms</a>, <a href="/privacy" className='text-blue-300'>Privacy Policy</a> and <a href="/policy" className='text-blue-300'>Cookies Policy</a>.</p> */}
-                    <Button fullWidth>Register</Button>
-                    {/* <p className='flex justify-center'>Have an account? <a href="/login" className='text-blue-500'>Log in</a></p> */}
+                    <p className='text-sm'>By signing up, you agree to our <a href="/terms" className='text-blue-400'>Terms</a>, <a href="/privacy" className='text-blue-400'>Privacy Policy</a> and <a href="/policy" className='text-blue-400'>Cookies Policy</a>.</p>
+                    <Button type='submit' fullWidth>Register</Button>
+                    <p className='flex justify-center'>Have an account? <a href="/login" className='text-blue-500'>Log in</a></p>
                 </form>
             </motion.div>
         </div>
     )
 }
 
-export default Login
+export default Register
