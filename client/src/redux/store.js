@@ -48,8 +48,9 @@ import { configureStore } from "@reduxjs/toolkit";
 import usersReducer from './slice/usersSlice.js';
 import themeReducer from './slice/lightSlice.js';
 import countReducer from './slice/counterSlice.js';
-import loadingReducer from './slice/LoadingSlice.js'
-import productReducer from './slice/productSlice.js'
+import loadingReducer from './slice/LoadingSlice.js';
+import productReducer from './slice/productSlice.js';
+import authReducer from './slice/authSlice.js';
 
 const store = configureStore({
   reducer: {
@@ -57,7 +58,8 @@ const store = configureStore({
     theme: themeReducer,
     count: countReducer,
     laoding: loadingReducer,
-    product: productReducer
+    product: productReducer,
+    auth: authReducer,
   },
 
 });

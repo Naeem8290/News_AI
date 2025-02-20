@@ -3,19 +3,19 @@ import mongoose from 'mongoose'
 
 const UserSchema = new mongoose.Schema({
     name : {
-        type : String
+        type : String ,
     },
     email : {
-        type : String
+        type : String ,
     },
     password : {
-        type : String
+        type : String ,
     },
     preferences : [{String}],
-    bookmarks : [{String}]
+    bookmarks : [{String}],
 });
 
-const User = mongoose.model('user' , UserSchema)
+const User = mongoose.model('User' , UserSchema)
 
 export default User
 

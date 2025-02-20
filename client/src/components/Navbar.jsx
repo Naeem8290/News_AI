@@ -10,6 +10,9 @@ const Navbar = () => {
     const handleClick = () => {
         setIsOpen(!isOpen)
     }
+
+    // console.log(import.meta.env.VITE_API_URL)
+
     return (
         <nav className='h-16 p-2'>
 

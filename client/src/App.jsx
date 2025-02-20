@@ -9,6 +9,7 @@ import Reduxt from './pages/Reduxt';
 import Thunkapi from './pages/Thunkapi';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProduct } from './redux/slice/productSlice';
+import { Toaster } from 'sonner';
 
 const App = () => {
 
@@ -22,6 +23,7 @@ const App = () => {
   return (
     <div>
       <Navbar/>
+      <Toaster/>
       <Routes>
         <Route path='/login' element={<Login/>}/>
         <Route path='/register' element={<Register/>}/>

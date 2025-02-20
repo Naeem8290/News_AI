@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Mail, Lock, Eye, EyeOff, User} from 'lucide-react';
 import { Button } from '@mantine/core';
+import { useForm } from 'react-hook-form';
+import { signUp } from '../redux/slice/authSlice'
+import { useDispatch , useSelector } from 'react-redux'
+import { Loader } from '@mantine/core';
 
 const Register = () => {
     const [isEyeClick, setIsEyeClick] = useState(false);
@@ -13,6 +17,19 @@ const Register = () => {
     const handleEyeClicks = () => {
         setIsEyeClicks(!isEyeClicks);
     };
+
+
+    const Dispatch = useDispatch()
+    const {loading} = useSelector((state)=>state.auth)
+
+    const { register , handleSubmit } = useForm()
+
+    const onSubmit = (data) => {
+        console.log(data);
+        Dispatch(signUp(data))
+        
+    }
+
     return (
         <div className="bg-gray-100 h-screen flex justify-center items-center">
             <motion.div
@@ -22,7 +39,7 @@ const Register = () => {
                 className="w-96 rounded-2xl p-6 shadow-md bg-white"
             >
                 <h1 className="text-center text-2xl font-bold mb-4">Register</h1>
-                <form className="space-y-6 w-full">
+                <form className="space-y-6 w-full" onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex gap-2 relative  ">
                         <User className="text-gray-500 absolute left-2" />
                         <input
@@ -31,6 +48,7 @@ const Register = () => {
                             className="focus:outline-none w-full border-b border-gray-300 pl-10"
                             placeholder="Full Name"
                             required
+                            {...register("name")}
                         />
                     </div>
                     <div className="flex gap-2 relative  ">
@@ -40,6 +58,7 @@ const Register = () => {
                             name="email"
                             className="focus:outline-none w-full border-b border-gray-300 pl-10"
                             placeholder="Enter Email..."
+                            {...register("email")}
                         />
                     </div>
                     <div className="flex gap-2 relative ">
@@ -53,6 +72,7 @@ const Register = () => {
                             name="password"
                             className="focus:outline-none w-full border-b border-gray-300 pl-10"
                             placeholder="Enter Password..."
+                            {...register("password")}
                         />
                     </div>
 
@@ -67,13 +87,14 @@ const Register = () => {
                             name="confirmPassword"
                             className="focus:outline-none w-full border-b border-gray-300 pl-10"
                             placeholder="Enter Confirm Password..."
+                            {...register("confirmPassword")}
                         />
                     </div>
                     
 
 
                     <p className='text-sm'>By signing up, you agree to our <a href="/terms" className='text-blue-400'>Terms</a>, <a href="/privacy" className='text-blue-400'>Privacy Policy</a> and <a href="/policy" className='text-blue-400'>Cookies Policy</a>.</p>
-                    <Button type='submit' fullWidth>Register</Button>
+                    <Button type='submit' fullWidth>{ loading ? <Loader size={16} color='white'/> : 'SignUp' }</Button>
                     <p className='flex justify-center'>Have an account? <a href="/login" className='text-blue-500'>Log in</a></p>
                 </form>
             </motion.div>
