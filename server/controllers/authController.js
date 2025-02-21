@@ -32,7 +32,8 @@ export const login = async (req, res) => {
     });
     
     res.status(200).json({
-      token,
+      // token,
+      preferences: user.preferences ,
       message: 'login successfull',
     });
   } catch (error) {}

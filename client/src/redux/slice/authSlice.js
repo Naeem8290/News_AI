@@ -1,11 +1,16 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit' ;
 import axios from 'axios' ;
 import { toast } from 'sonner';
+import { getCookie, removeCookie, setCookie } from '../../utils/utils';
 
 
 
 const initialState = {
-    loading: false
+    loading: false ,
+    authenticated: getCookie('isAuthenticated') || false ,
+    name: getCookie('name') || null ,
+    id: getCookie('id') || null ,
+    preferences: [] ,
 }
 
 
@@ -37,7 +42,7 @@ export const login = createAsyncThunk('/login', async (data, {rejectWithValue}) 
             data , {withCredentials : true});
             const verifyres = await axios.get(`${import.meta.env.VITE_API_URL}/auth/verify`,
                 {withCredentials : true});
-        return res.data
+        return {...res.data , ...verifyres.data}
     } catch (error) {
         return rejectWithValue(error)
 
@@ -51,6 +56,17 @@ export const login = createAsyncThunk('/login', async (data, {rejectWithValue}) 
 const authSlice = createSlice({
     name: "auth",
     initialState,
+    reducers: {
+        signOut : function(state){
+            state.authenticated = false ,
+            state.name = null ,
+            state.id = null ,
+            removeCookie('isAuthenticated')
+            removeCookie('name')
+            removeCookie('id')
+
+        }
+    },
     extraReducers: (builder) => {
         builder.addCase(signUp.pending , (state) => {
             state.loading = true
@@ -67,10 +83,19 @@ const authSlice = createSlice({
             state.loading = true
           }).addCase(login.fulfilled , (state , action) => {
             state.loading = false
-            console.log(action.payload.message);
+            state.authenticated = action.payload.authenticated
+            state.name = action.payload.name
+            state.id = action.payload.id
+            setCookie('isAuthenticated' , action.payload.authenticated)
+            setCookie('name' , action.payload.name)
+            setCookie('id' , action.payload.id)
+            state.preferences = action.payload.preferences
+            console.log(action.payload);
+            toast.success(action.payload.message)
           }).addCase(login.rejected , (state , action) => {
             state.loading = false
             console.log(action.payload);
+            toast.error(action.payload.response.data.message)
 
           })
     }
@@ -79,3 +104,4 @@ const authSlice = createSlice({
 
 
 export default authSlice.reducer
+export const {signOut} = authSlice.actions 

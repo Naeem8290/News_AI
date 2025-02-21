@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { motion } from 'motion/react'
 import {Button} from '@mantine/core'
 import {X , Menu} from 'lucide-react'
+import { useSelector } from 'react-redux'
+import ProfileDropDown from './ProfileDropDown'
 
 const Navbar = () => {
     const [isOpen , setIsOpen] = useState(false)
@@ -12,6 +14,8 @@ const Navbar = () => {
     }
 
     // console.log(import.meta.env.VITE_API_URL)
+
+    const {authenticated} = useSelector((state)=>state.auth)
 
     return (
         <nav className='h-16 p-2'>
@@ -32,12 +36,15 @@ const Navbar = () => {
                 </ul>
 
                 <div className='flex space-x-4 item-center justify-center'>
+                  {!authenticated && <div className='flex gap-6'>
                     <Link to='/login' className='hidden md:block'>
                     <Button variant='white'>Login</Button>
                     </Link>
                     <Link to='/register' className='hidden md:block'>
                     <Button variant='white'>Register</Button>
                     </Link>
+                    </div>}
+                    {authenticated && <ProfileDropDown/>}
                     <button onClick={handleClick} className='md:hidden'>{isOpen ? <X/> : <Menu/>}</button>
                 </div>
             </div>
@@ -60,6 +67,7 @@ const Navbar = () => {
                 <Link to={`/${item.toLowerCase()}`}>{item}</Link>
               </li>
             ))}
+            {!authenticated && <div>
             <li>
               <Link to="/login" className="block py-2">
               <Button variant='white'>Login</Button>
@@ -70,6 +78,7 @@ const Navbar = () => {
               <Button variant='white'>Register</Button>
               </Link>
             </li>
+            </div>}
           </ul>
         </motion.div>
       )}
