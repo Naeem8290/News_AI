@@ -4,6 +4,7 @@ import dbConnect from './config/db.js';
 import userRoutes from './routes/userRoutes.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import newsRoutes from './routes/newsRoutes.js';
 
 const app = express();
 
@@ -20,6 +21,7 @@ dotenv.config();
 dbConnect();
 
 app.use('/auth', userRoutes);
+app.use('/api' , newsRoutes)
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on the PORT ${process.env.PORT}`);
 });

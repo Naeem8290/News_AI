@@ -28,6 +28,32 @@ const Register = () => {
 
 
 
+
+    const passwordSchema = z.string().min(4, { message: 'Password should be at least 8 character long' }).superRefine((value, ctx) => {
+        // console.log(value)
+        if (!/[A-Z]/.test(value)) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "Must required at least one uppercase case",
+            });
+        }
+        if (!/[a-z]/.test(value)) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "Must required at least one lowercase case",
+            });
+        }
+        if (!/[0-9]/.test(value)) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "Must required at least one digit",
+            });
+        }
+    })
+
+
+
+
     const registerSchema = z.object({
         name: z
             .string()
@@ -38,18 +64,22 @@ const Register = () => {
             .min(1, { message: ('This field has to be filled') })
             .email('This is not a valid email'),
 
-        password: z
-            .string()
-            .min(1, { message: ('Password is required') }),
+        password: passwordSchema,
 
-        confirmPassword: z
-            .string()
-            .min(1, { message: ('Password is required') }),
-    });
+        confirmPassword: z.string(),
+    })
+        .refine((data) => data.password === data.confirmPassword, {
+            message: 'Password do not match',
+            path: ['confirmPassword'],
+        });
+        
+        
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: zodResolver(registerSchema),
     });
+
+    // console.log(errors.confirmPassword);
 
     const onSubmit = (data) => {
         console.log(data);
@@ -78,7 +108,6 @@ const Register = () => {
                             name="name"
                             className="focus:outline-none w-full border-b border-gray-300 pl-10"
                             placeholder="Full Name"
-                            required
                             {...register("name")}
                         />
                     </div>

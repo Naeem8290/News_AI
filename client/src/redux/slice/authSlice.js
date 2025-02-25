@@ -10,7 +10,7 @@ const initialState = {
     authenticated: getCookie('isAuthenticated') || false ,
     name: getCookie('name') || null ,
     id: getCookie('id') || null ,
-    preferences: [] ,
+    preferences: JSON.parse(localStorage.getItem('preferences')) || [] ,
 }
 
 
@@ -72,10 +72,10 @@ const authSlice = createSlice({
             state.loading = true
         }).addCase(signUp.fulfilled , (state , action) => {
             state.loading = false
-            console.log(action.payload.message);
+            // console.log(action.payload.message);
             toast.success(action.payload.message);   
         }).addCase(signUp.rejected, (state, action) => {
-            console.log(action.payload);
+            // console.log(action.payload);
             state.loading = false;
             toast.error(action.payload.response.data.message);
           })
@@ -90,11 +90,12 @@ const authSlice = createSlice({
             setCookie('name' , action.payload.name)
             setCookie('id' , action.payload.id)
             state.preferences = action.payload.preferences
-            console.log(action.payload);
+            localStorage.setItem('preferences' , JSON.stringify(action.payload.preferences))
+            // console.log(action.payload);
             toast.success(action.payload.message)
           }).addCase(login.rejected , (state , action) => {
             state.loading = false
-            console.log(action.payload);
+            // console.log(action.payload);
             toast.error(action.payload.response.data.message)
 
           })

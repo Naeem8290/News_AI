@@ -14,8 +14,20 @@ import { Toaster } from 'sonner';
 import ProtectedRoutes from './components/ProtectedRoutes';
 
 const Homepage = lazy(() => import('./pages/Homepage'));
+const Profile = lazy(() => import('./pages/Profile'));
+const Category = lazy(() => import('./components/Category'))
+const Footer = lazy(() => import('./components/Footer'))
+const HeroSection = lazy(() => import('./components/HeroSection'))
+const Trending = lazy(() => import('./components/Trending'))
+const AboutUs = lazy(() => import('./components/AboutUs'))
+
+
+
 
 import LoadingSpinner from './components/LoadingSpinner';
+import PreferenceProtectRoute from './components/PreferenceProtectRoute';
+// import AboutUs from './components/AboutUs';
+// import Profile from './pages/Profile';
 
 const App = () => {
 
@@ -34,11 +46,23 @@ const App = () => {
       <Routes>
         <Route element={<ProtectedRoutes/>}>
         <Route path='/' element={<Homepage/>}/>
+        <Route path='/profile' element={<Profile/>}/>
+        <Route element={<PreferenceProtectRoute/>}>
         <Route path='/preferences' element={<Preferences/>}/>
+        </Route>
         </Route>
         
         <Route path='/login' element={<Login/>}/>
         <Route path='/register' element={<Register/>}/>
+        <Route path='/footer' element={<Footer/>}/>
+        <Route path='/categories' element={<Category/>}/>
+        <Route path='/home' element={<HeroSection/>}/>
+        <Route path='/about' element={<AboutUs/>}/>
+
+
+
+
+
         <Route path='/terms' element={<Reduxt/>}/>
         <Route path='/privacy' element={<Thunkapi/>}/>
       </Routes>

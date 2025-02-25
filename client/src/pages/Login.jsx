@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
-import { Button } from '@mantine/core';
+import { Button , Loader } from '@mantine/core';
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { login } from '../redux/slice/authSlice.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { Loader } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
@@ -18,7 +17,6 @@ const Login = () => {
 
 
     const Dispatch = useDispatch()
-    const { loading } = useSelector((state) => state.auth)
 
 
     const loginSchema = z.object({
@@ -46,11 +44,10 @@ const Login = () => {
     }
 
 
-    const { authenticated , preferences } = useSelector((state) => state.auth)
-    console.log(authenticated)
-    console.log(preferences);
-    console.log(preferences.length<=0);
-    console.log(preferences.length);
+    const { authenticated , preferences , loading} = useSelector((state) => state.auth)
+    // console.log(authenticated)
+    // console.log(preferences);
+    // console.log(preferences.length);
 
     
     
