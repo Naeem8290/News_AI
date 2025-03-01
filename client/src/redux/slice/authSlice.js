@@ -10,6 +10,7 @@ const initialState = {
     authenticated: getCookie('isAuthenticated') || false ,
     name: getCookie('name') || null ,
     id: getCookie('id') || null ,
+    email: getCookie('email') || null,
     preferences: JSON.parse(localStorage.getItem('preferences')) || [] ,
 }
 
@@ -17,7 +18,9 @@ const initialState = {
 export const signUp = createAsyncThunk('/register', async (data, {rejectWithValue}) => {
     try {
         const res = await axios.post(`${import.meta.env.VITE_API_URL}/auth/register`,
-            data)
+            data, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+            })
         return res.data
     } catch (error) {
         return rejectWithValue(error)
@@ -61,9 +64,11 @@ const authSlice = createSlice({
             state.authenticated = false ,
             state.name = null ,
             state.id = null ,
+            state.email = null ,
             removeCookie('isAuthenticated')
             removeCookie('name')
             removeCookie('id')
+            removeCookie('email')
 
         }
     },
@@ -86,9 +91,11 @@ const authSlice = createSlice({
             state.authenticated = action.payload.authenticated
             state.name = action.payload.name
             state.id = action.payload.id
+            state.email = action.payload.email
             setCookie('isAuthenticated' , action.payload.authenticated)
             setCookie('name' , action.payload.name)
             setCookie('id' , action.payload.id)
+            setCookie('email' , action.payload.email)
             state.preferences = action.payload.preferences
             localStorage.setItem('preferences' , JSON.stringify(action.payload.preferences))
             // console.log(action.payload);

@@ -11,9 +11,11 @@ const UserSchema = new mongoose.Schema({
     password : {
         type : String ,
     },
+    PImg : {type : String},
     preferences : [String],
-    bookmarks : [{String}],
-});
+    bookmarks: [ {Object} ],
+    readingHistory: [{ Object }],
+  });
 
 const User = mongoose.model('User' , UserSchema)
 

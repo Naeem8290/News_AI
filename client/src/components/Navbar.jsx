@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'motion/react'
 import {Button} from '@mantine/core'
-import {X , Menu} from 'lucide-react'
+import {X , Menu , Bell} from 'lucide-react'
 import { useSelector } from 'react-redux'
 import ProfileDropDown from './ProfileDropDown'
 
@@ -36,7 +36,17 @@ const Navbar = () => {
                 </ul>
 
                 <div className='flex space-x-4 item-center justify-center'>
-                  {!authenticated && <div className='flex gap-6'>
+                  {authenticated && <div className='flex gap-6'>
+                      
+                    <button className="relative text-gray-600 hover:text-gray-800">
+                <Bell size={22} />
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-1">
+                  3
+                </span>
+              </button>
+                    </div>}
+                    {!authenticated && <div className='flex gap-6'>
+
                     <Link to='/login' className='hidden md:block'>
                     <Button variant='white'>Login</Button>
                     </Link>

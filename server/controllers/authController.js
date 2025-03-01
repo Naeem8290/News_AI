@@ -22,7 +22,7 @@ export const login = async (req, res) => {
    
     //last token generation
     const token = jwt.sign(
-      { id: user._id, name: user.name },
+      { id: user._id, name: user.name, email: user.email },
       'hello_this_string',
       { expiresIn: '1d' }
     );
@@ -47,6 +47,7 @@ export const verify = async(req , res) => {
       authenticated: true,
       id: req.user.id,
       name: req.user.name,
+      email : req.user.email ,
     });
   }
 
@@ -56,6 +57,8 @@ export const verify = async(req , res) => {
 export const register = async (req, res) => {
   try {
     const { name, password, email } = req.body;
+    const filename = req.file.filename
+
     //check if user is already registered
     const user = await User.findOne({ email });
     console.log(user);
@@ -70,7 +73,8 @@ export const register = async (req, res) => {
     const newUser = await User.create({
        name, 
        password : hashedPassword, 
-       email 
+       email ,
+       PImg: filename ,
       });
 
     res.status(201).json({

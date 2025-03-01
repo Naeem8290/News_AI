@@ -1,46 +1,95 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Tabs } from '@mantine/core';
-function Category() {
-  const category = [
+import axios from 'axios';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import InfiniteScroll from 'react-infinite-scroll-component'
+import ArticleCard from './ArticleCard';
+
+
+const Category = () => {
+
+  const [category, setCategory] = useState('general');
+  console.log(category);
+
+  const categories = [
     'General',
     'Sports',
     'Politics',
     'Business',
     'Entertainment',
-    'Movies',
+    'Health',
+    'Science',
   ];
-  return (
-    <div className='py-12 px-10'>
-      <h1 className="text-center space-y-10 my-6 font-bold text-2xl">Categories</h1>
 
-      <Tabs defaultValue="gallery">
+  const fetchNewsByCategory = async ({ pageParam = 1 }) => {
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_URL
+      }/api/news/${category}?page=${pageParam}&pageSize=10`
+    );
+    return response.data;
+  };
+
+  const { data, hasNextPage, fetchNextPage, status } = useInfiniteQuery({
+    queryKey: ['category', category],
+    queryFn: fetchNewsByCategory,
+    getNextPageParam: (lastPage) => {
+      console.log('lastPage: ', lastPage);
+
+      return lastPage.nextPage;
+    },
+  });
+
+  console.log(data);
+
+
+  return (
+    <div className="py-12 px-10 max-w-5xl mx-auto">
+      <h1 className="text-center space-y-10 my-6 font-bold text-2xl">
+        Categories
+      </h1>
+
+      <Tabs
+        defaultValue="gallery"
+        onChange={(value) => setCategory(value.toLowerCase())}
+      >
         <Tabs.List>
-          {category.map((cat) => (
-            <Tabs.Tab className='text-gray-200' size="lg" value={cat}>{cat}</Tabs.Tab>
+          {categories.map((cat) => (
+            <Tabs.Tab className="text-gray-200" size="lg" value={cat}>
+              {cat}
+            </Tabs.Tab>
           ))}
         </Tabs.List>
       </Tabs>
+      <div className='mt-14'>
+        <InfiniteScroll
+          dataLength={data?.pages.length >= 0 && data?.pages.length >= 0 &&
+            data?.pages.reduce((total, page) => total + page.news.length, 0 || 0)}
+          next={fetchNextPage}
+          hasMore={hasNextPage}
+          loader={
+            <p style={{ textAlign: 'center', margin: '20px 20px' }}>
+              Loading ...
+            </p>
+          }
+          endMessage={
+            <p style={{ textAlign: 'center', marginTop: '20px' }}>
+              No more news
+            </p>
+          }>
+
+          {data?.pages.length >= 0 && data?.pages.map((page, index) => (
+            page.news.map((article) => (
+              <ArticleCard article={article} category={category} />
+
+            ))
+          ))}
+
+        </InfiniteScroll>
+
+      </div>
+
     </div>
-  );
+  )
 }
 
-export default Category;
-
-//  <Tabs.Tab
-//             value="Bookmarks"
-//             leftSection={<Bookmark size={16} color="orange" />}
-//           >
-//             Bookmarks
-//           </Tabs.Tab>
-//           <Tabs.Tab
-//             value="messages"
-//             leftSection={<Heart size={16} color="red" />}
-//           >
-//             Liked News
-//           </Tabs.Tab>
-//           <Tabs.Tab value="preferences" leftSection={<Cog size={16} />}>
-//             Preferences
-//           </Tabs.Tab>
-//           <Tabs.Tab value="ai-recommandations" leftSection={<Bot size={16} />}>
-//             AI Recommandations
-//           </Tabs.Tab>
+export default Category

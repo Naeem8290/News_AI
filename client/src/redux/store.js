@@ -51,7 +51,9 @@ import countReducer from './slice/counterSlice.js';
 import loadingReducer from './slice/LoadingSlice.js';
 import productReducer from './slice/productSlice.js';
 import authReducer from './slice/authSlice.js';
-import newsReducer from './slice/newsSlice.js'
+import newsReducer from './slice/newsSlice.js';
+import bookmarkReducer from './slice/bookmarkSlice.js';
+import readingHistoryReducer from './slice/readingHistorySlice.js';
 
 const store = configureStore({
   reducer: {
@@ -62,6 +64,8 @@ const store = configureStore({
     product: productReducer,
     auth: authReducer,
     news: newsReducer,
+    bookmark: bookmarkReducer,
+    readingHistory: readingHistoryReducer,
   },
 
 });

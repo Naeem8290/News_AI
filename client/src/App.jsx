@@ -20,6 +20,7 @@ const Footer = lazy(() => import('./components/Footer'))
 const HeroSection = lazy(() => import('./components/HeroSection'))
 const Trending = lazy(() => import('./components/Trending'))
 const AboutUs = lazy(() => import('./components/AboutUs'))
+const Bookmarks = lazy(() => import('./pages/Bookmarks'))
 
 
 
@@ -54,10 +55,10 @@ const App = () => {
         
         <Route path='/login' element={<Login/>}/>
         <Route path='/register' element={<Register/>}/>
-        <Route path='/footer' element={<Footer/>}/>
         <Route path='/categories' element={<Category/>}/>
         <Route path='/home' element={<HeroSection/>}/>
         <Route path='/about' element={<AboutUs/>}/>
+        <Route path='/bookmarks' element={<Bookmarks/>}/>
 
 
 
@@ -67,6 +68,7 @@ const App = () => {
         <Route path='/privacy' element={<Thunkapi/>}/>
       </Routes>
       </Suspense>
+      <Footer/>
     </div>
   )
 }
