@@ -2,6 +2,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit' ;
 import axios from 'axios' ;
 import { toast } from 'sonner';
 import { getCookie, removeCookie, setCookie } from '../../utils/utils';
+import { auth , googleAuthProvider } from '../../config/firebase.js';
+import { signInWithPopup } from 'firebase/auth';
 
 
 
@@ -53,6 +55,24 @@ export const login = createAsyncThunk('/login', async (data, {rejectWithValue}) 
 })
 
 
+
+export const signInWithGoogle = createAsyncThunk('/google-login', async () => {
+    try {
+      const result = await signInWithPopup(auth, googleAuthProvider);
+      const idToken = await result.user.getIdToken();
+      console.log(idToken);
+  
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/auth/google`,
+        { idToken }
+      );
+  
+      return res.data;
+    } catch (err) {
+        console.error('Google Sign-In Error.' , err)
+        throw err;
+    }
+  });
 
 
 
@@ -106,6 +126,25 @@ const authSlice = createSlice({
             toast.error(action.payload.response.data.message)
 
           })
+          .addCase(signInWithGoogle.pending, (state, action) => {
+            // state.loading = true;
+          })
+          .addCase(signInWithGoogle.fulfilled, (state, action) => {
+            state.authenticated = action.payload.authenticated;
+            state.name = action.payload.name;
+            state.id = action.payload.id;
+            setCookie('isAuthenticated', action.payload.authenticated);
+            setCookie('email', action.payload.email);
+            setCookie('name', action.payload.name);
+            setCookie('id', action.payload.id);
+            state.preferences = action.payload.preferences;
+            localStorage.setItem(
+              'preferences',
+              JSON.stringify(action.payload.preferences)
+            );
+            console.log(action.payload);
+            toast.success(action.payload.message);
+          });
     }
 })
 

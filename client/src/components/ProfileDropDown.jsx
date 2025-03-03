@@ -13,7 +13,7 @@ function ProfileDropDown() {
   };
   return (
     <div>
-      <Menu shadow="md" width={200}>
+      <Menu shadow="md" width={250}>
         <Menu.Target>
           <Avatar className="cursor-pointer" />
         </Menu.Target>

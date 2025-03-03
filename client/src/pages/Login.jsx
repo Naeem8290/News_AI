@@ -5,9 +5,10 @@ import { Button , Loader } from '@mantine/core';
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { login } from '../redux/slice/authSlice.js';
+import { login , signInWithGoogle } from '../redux/slice/authSlice.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import GoogleIcon from '../components/GoogleIcon.jsx';
 
 const Login = () => {
     const [isEyeClick, setIsEyeClick] = useState(false);
@@ -101,6 +102,9 @@ const Login = () => {
                     {errors.password && <p className='text-sm text-red-500'>{errors.password.message}</p>}
                     <p className='text-sm'>Don't have an account? <a href="/register" className='text-blue-600'>Register</a></p>
                     <Button fullWidth type='submit'>{loading ? <Loader size={16} color='white' /> : 'Login'}</Button>
+
+                    <Button fullWidth variant="outline" onClick={()=>Dispatch(signInWithGoogle())} leftSection={<GoogleIcon/>}>Login with Google</Button>
+
                     <p><a href="/forgot" className='flex justify-center'>Forgot password?</a></p>
                 </form>
             </motion.div>

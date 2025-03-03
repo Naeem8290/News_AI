@@ -13,9 +13,17 @@ import aiRoutes from './routes/aiRoutes.js';
 import cron from 'node-cron';
 // import News from './models/News.js';
 
-import fetchNewsAndStore from './services/newsFetcher.js'
-cron.schedule('*/15 * * * *', fetchNewsAndStore);
+import crudRoutes from './routes/crudRoutes.js';
 
+import fetchNewsAndStore from './services/newsFetcher.js'
+// cron.schedule('*/15 * * * *', fetchNewsAndStore);
+
+import admin from 'firebase-admin'
+import serviceAccount from './key/news-48af9-firebase-adminsdk-fbsvc-8f398d8c94.json'  with { type: "json" } ;
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
 
 const app = express();
 morgan('combined')
@@ -93,6 +101,8 @@ app.use('/api' , newsRoutes)
 app.use('/api' , bookmarkRoutes)
 app.use('/api' , readingHistoryRoutes)
 app.use('/api' , aiRoutes)
+
+app.use('/api/users', crudRoutes);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on the PORT ${process.env.PORT}`);

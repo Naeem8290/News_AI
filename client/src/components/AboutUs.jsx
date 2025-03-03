@@ -1,6 +1,7 @@
 import React from 'react'
 
 const AboutUs = () => {
+  
   return (
     <div className='w-192 ml-10 leading-loose'>
         <h1 className='font-bold text-2xl mt-5 mb-2'>🌟 About Us</h1>

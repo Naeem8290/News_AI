@@ -1,5 +1,10 @@
 import puppeteer from "puppeteer";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import dotenv from 'dotenv'
+import NewsSummary from '../models/NewsSummary.js';
+
+console.log(process.env.GEMINI_API_KEY);
+
 
 const genAI = new GoogleGenerativeAI('AIzaSyCwVbJNH1Dni6TcSqWwxiMavGjIskYBq50');
 
@@ -19,6 +24,16 @@ const generateSummary = async (content) => {
 export const newsSummarize = async (req, res) => {
     const { url } = req.body
     // console.log(url);
+
+    const exist = await NewsSummary.findOne({ url });
+
+  if (exist) {
+    return res.status(200).json({
+      summary: exist.summary,
+      fullarticle: url,
+    });
+  }
+
     let browser;
     try {
         browser = await puppeteer.launch({ headless: true });
@@ -35,6 +50,14 @@ export const newsSummarize = async (req, res) => {
         // console.log(extractedText);
 
         const summary = await generateSummary(extractedText);
+
+        const newSSummary = new NewsSummary({
+            url,
+            summary,
+          });
+      
+          await newSSummary.save();
+      
 
         res.status(200).json({
             summary, fullarticle: url

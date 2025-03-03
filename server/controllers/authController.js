@@ -1,11 +1,12 @@
 import User from '../models/User.js' ;
 import bcrypt from 'bcrypt' ;
 import jwt from 'jsonwebtoken' ;
+import admin from 'firebase-admin';
 
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log(req.body)
+    // console.log(req.body)
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({
@@ -23,12 +24,13 @@ export const login = async (req, res) => {
     //last token generation
     const token = jwt.sign(
       { id: user._id, name: user.name, email: user.email },
-      'hello_this_string',
+      process.env.JWT_SECRET || 'hello_this_string',
       { expiresIn: '1d' }
     );
 
     res.cookie('token', token, {
       httpOnly: true,
+      // maxAge: 15 * 24 * 60 * 60 * 1000,
     });
     
     res.status(200).json({
@@ -36,18 +38,35 @@ export const login = async (req, res) => {
       preferences: user.preferences ,
       message: 'login successfull',
     });
-  } catch (error) {}
+  } catch (error) {
+    console.error('Login Error:', error);
+    res.status(500).json({
+      message: 'Internal Server Error.',
+      error: error.message,
+    });
+  }
 };
 
 export const verify = async(req , res) => {
-  console.log('verify wali',req.user);
-  if (!req.user) {
-  } else {
+  // console.log('verify wali',req.user);
+  try {
+    if (!req.user) {
+      return res
+        .status(401)
+        .json({ authenticated: false, message: 'Unauthorized' });
+    }
     return res.status(200).json({
       authenticated: true,
       id: req.user.id,
+      email: req.user.email,
       name: req.user.name,
-      email : req.user.email ,
+    });
+
+  } catch (error) {
+    console.error('Verification Error:', error);
+    res.status(500).json({
+      message: 'Internal Server Error.',
+      error: error.message,
     });
   }
 
@@ -61,7 +80,7 @@ export const register = async (req, res) => {
 
     //check if user is already registered
     const user = await User.findOne({ email });
-    console.log(user);
+    // console.log(user);
     if (user) {
       return res.status(404).json({
         message: 'User is already registred ,Please Login',
@@ -81,5 +100,65 @@ export const register = async (req, res) => {
       data: newUser,
       message: 'Successfully registered',
     });
-  } catch (error) {}
+  } catch (error) {
+    console.error('Registration Error:', error);
+    res.status(500).json({
+      message: 'Internal Server Error.',
+      error: error.message,
+    });
+  }
+};
+
+
+
+
+
+
+export const googleLogin = async (req, res) => {
+  try {
+    const { idToken } = req.body;
+
+    if (!idToken) {
+      return res.status(400).json({ message: 'ID token is required' });
+    }
+
+
+    const decodedToken = await admin.auth().verifyIdToken(idToken);
+    console.log(decodedToken);
+
+    let user = await User.findOne({ email: decodedToken.email });
+
+    if (!user) {
+      user = new User({
+        name: decodedToken.name || 'No Name',
+        email: decodedToken.email,
+        password: 'google-auth',
+      });
+      await user.save();
+    }
+
+    const token = jwt.sign(
+      { id: user._id, name: user.name, email: user.email },
+      process.env.JWT_SECRET || 'hello_this_string',
+      { expiresIn: '1d' }
+    );
+
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 15 * 24 * 60 * 60 * 1000, 
+    });
+
+    res.status(200).json({
+      authenticated: true,
+      id: user._id,
+      email: user.email,
+      name: user.name,
+      preferences: user.preferences || {},
+      message: 'Login successful.',
+    });
+  } catch (err) {
+    console.error('Google Login Error:', err);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
 };

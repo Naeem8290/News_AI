@@ -18,9 +18,9 @@ const Navbar = () => {
     const {authenticated} = useSelector((state)=>state.auth)
 
     return (
-        <nav className='h-16 p-2'>
+        <nav className='bg-opacity-80 bg-white h-14  border-b border-b-gray-200 backdrop-blur-md p-4 text-black sticky top-0 z-50'>
 
-            <div className=' flex item-center justify-between mx-6'>
+            <div className='container mx-auto h-full flex items-center justify-between px-2 relative'>
                 <motion.h1 initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} className='text-2xl font-semibold'>NEWSAI</motion.h1>
 
                 <ul className='hidden md:flex gap-4'>

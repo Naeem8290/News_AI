@@ -7,6 +7,7 @@ const Profile = () => {
   const [bookmarksCount, setBookmarksCount] = useState(5);
   const [readingHistoryCount, setReadingHistoryCount] = useState(12);
 
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}

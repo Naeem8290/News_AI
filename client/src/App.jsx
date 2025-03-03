@@ -27,6 +27,8 @@ const Bookmarks = lazy(() => import('./pages/Bookmarks'))
 
 import LoadingSpinner from './components/LoadingSpinner';
 import PreferenceProtectRoute from './components/PreferenceProtectRoute';
+import Channels from './components/Channels';
+import ForgetPassword from './components/ForgetPassword';
 // import AboutUs from './components/AboutUs';
 // import Profile from './pages/Profile';
 
@@ -59,6 +61,8 @@ const App = () => {
         <Route path='/home' element={<HeroSection/>}/>
         <Route path='/about' element={<AboutUs/>}/>
         <Route path='/bookmarks' element={<Bookmarks/>}/>
+        <Route path='/channels' element={<Channels/>}/>
+        <Route path='/forgot-password' element={<ForgetPassword/>}/>
 
 
 
