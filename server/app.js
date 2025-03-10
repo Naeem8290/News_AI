@@ -20,7 +20,7 @@ import fetchNewsAndStore from './services/newsFetcher.js'
 
 import admin from 'firebase-admin'
 // import serviceAccount from './key/news-48af9-firebase-adminsdk-fbsvc-8f398d8c94.json'  with { type: "json" } ;
-import bookmarkHistoryRoutes from './routes/BookmarkHistoryRoutes.js';
+// import bookmarkHistoryRoutes from './routes/BookmarkHistoryRoutes.js';
 
 
 const serviceAccount = {
@@ -129,7 +129,7 @@ app.use('/auth', userRoutes);
 app.use('/api' , newsRoutes)
 app.use('/api' , bookmarkRoutes)
 app.use('/api' , readingHistoryRoutes)
-app.use('/api' , bookmarkHistoryRoutes)
+// app.use('/api' , bookmarkHistoryRoutes)
 app.use('/api' , aiRoutes)
 
 app.use('/api/users', crudRoutes);
