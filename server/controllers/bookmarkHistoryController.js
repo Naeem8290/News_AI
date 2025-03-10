@@ -1,23 +1,23 @@
 import User from '../models/User.js';
 
-export const getReadingHistory = async (req, res) => {
+export const getBookmarkHistory = async (req, res) => {
   try {
     const { id } = req.params;
     const user = await User.findById(id);
     if (!user) res.status(404).json({ message: 'User not found' });
     res.status(200).json({
-      data: user.readingHistory,
+      data: user.bookmarks,
     });
   } catch (error) {}
 };
 
-export const clearReadingHistory = async (req, res) => {
+export const clearBookmarkHistory = async (req, res) => {
   try {
     const { id , articleId } = req.params;
     const user = await User.findById(id);
     if (!user) res.status(404).json({ message: 'User not found' });
     // user.readingHistory = [];
-    user.readingHistory = user.readingHistory.filter(
+    user.bookmarks = user.bookmarks.filter(
       (article) => article._id.toString() !== articleId
     );
 
@@ -28,7 +28,7 @@ export const clearReadingHistory = async (req, res) => {
   } catch (error) {}
 };
 
-export const addReadingHistory = async (req, res) => {
+export const addBookmarkHistory = async (req, res) => {
   try {
     console.log(req.body)
     const { id } = req.params;
@@ -37,18 +37,18 @@ export const addReadingHistory = async (req, res) => {
     const user = await User.findById(id);
     if (!user) res.status(404).json({ message: 'User not found' });
     console.log(user);
-    user.readingHistory = user.readingHistory.filter(
-      (rh) => rh.url !== article.url
+    user.bookmarks = user.bookmarks.filter(
+      (b) => b.url !== article.url
     );
 
-    user.readingHistory.unshift(article);
+    user.bookmarks.unshift(article);
 
-    if (user.readingHistory.length > 50) {
-      user.readingHistory.pop();
+    if (user.bookmarks.length > 50) {
+      user.bookmarks.pop();
     }
     await user.save();
     res.status(201).json({
-      message: 'reading history saved',
+      message: 'bookmark history saved',
     });
   } catch (error) {}
 };

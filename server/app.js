@@ -19,7 +19,22 @@ import fetchNewsAndStore from './services/newsFetcher.js'
 // cron.schedule('*/15 * * * *', fetchNewsAndStore);
 
 import admin from 'firebase-admin'
-import serviceAccount from './key/news-48af9-firebase-adminsdk-fbsvc-8f398d8c94.json'  with { type: "json" } ;
+// import serviceAccount from './key/news-48af9-firebase-adminsdk-fbsvc-8f398d8c94.json'  with { type: "json" } ;
+import bookmarkHistoryRoutes from './routes/BookmarkHistoryRoutes.js';
+
+
+const serviceAccount = {
+  type: process.env.FIREBASE_TYPE,
+  project_id: process.env.FIREBASE_PROJECT_ID,
+  private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID,
+  private_key: process.env.FIREBASE_PRIVATE_KEY,
+  client_email: process.env.FIREBASE_CLIENT_EMAIL,
+  client_id: process.env.FIREBASE_CLIENT_ID,
+  auth_uri: process.env.FIREBASE_AUTH_URI,
+  token_uri: process.env.FIREBASE_TOKEN_URI,
+  auth_provider_x509_cert_url: process.env.FIREBASE_AUTH_PROVIDER_X509_CERT_URL,
+  client_x509_cert_url: process.env.FIREBASE_CLIENT_X509_CERT_URL
+};
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
@@ -31,9 +46,18 @@ morgan('combined')
 app.use(
     cors({
         credentials: true,
-        origin: "http://localhost:5173",
+        origin: "https://news-ai-eight.vercel.app",
     })
 );
+
+
+// app.use(
+//   cors({
+//       credentials: true,
+//       origin: "http://localhost:5173",
+//   })
+// );
+
 app.use(cookieParser())
 app.use(express.json());
 dotenv.config();
@@ -95,11 +119,17 @@ dbConnect();
 
 //-------------------------------------------------------
 
+app.get('/', (req,res)=>{
+res.send('homepage')
+})
+
+
 app.use('/upload', express.static('upload'));
 app.use('/auth', userRoutes);
 app.use('/api' , newsRoutes)
 app.use('/api' , bookmarkRoutes)
 app.use('/api' , readingHistoryRoutes)
+app.use('/api' , bookmarkHistoryRoutes)
 app.use('/api' , aiRoutes)
 
 app.use('/api/users', crudRoutes);

@@ -4,7 +4,7 @@ const readingHistoryRoutes = express.Router()
 
 readingHistoryRoutes.post('/:id/reading-history' , addReadingHistory)
 readingHistoryRoutes.get('/:id/reading-history' , getReadingHistory)
-readingHistoryRoutes.delete('/:id/reading-history' , clearReadingHistory)
+readingHistoryRoutes.delete('/:id/reading-history/:articleId' , clearReadingHistory)
 
 
 export default readingHistoryRoutes ;

@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import {
   Card,
   Image,
@@ -10,18 +9,21 @@ import {
   Popover,
   Tooltip,
 } from '@mantine/core';
-import { Eye, Bookmark, Sparkles, Share2, Copy } from 'lucide-react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
-
+import { Eye, Bookmark, Sparkles, Copy, Share2 } from 'lucide-react';
+import { addBookmarks , removeBookmarks} from '../redux/slice/newsSlice';
+import { useDispatch } from 'react-redux';
 const ArticleCard = ({ article, category }) => {
-
   const [opened, setOpened] = useState(false);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [summary, setSummary] = useState('');
   const [copySuccess, setCopySuccess] = useState(false);
+  const [bookmarks, setBookmarks] = useState(true);
 
+  const dispatch = useDispatch();
   const handleSummarize = async () => {
     setOpened(true);
     setIsLoading(true);
@@ -45,6 +47,26 @@ const ArticleCard = ({ article, category }) => {
     setTimeout(() => setCopySuccess(false), 2000);
   };
 
+  const toogleBookmarks = (n) => {
+    console.log(n)
+    const data = {
+    article : {
+      articleId : n._id ,
+      title : n.title ,
+      source : n.source.name ,
+      url : n.url ,
+      imageUrl : n.urlToImage,
+      publishedAt : n.publishedAt
+    }
+  }
+    if (bookmarks) {
+     dispatch(addBookmarks(data))
+    } else {
+     dispatch(removeBookmarks(n.url))
+    }
+
+    setBookmarks(!bookmarks);
+  };
 
   return (
     <Card
@@ -58,6 +80,9 @@ const ArticleCard = ({ article, category }) => {
         <Image
           src={article.urlToImage}
           alt={article.title}
+          h={200}
+          w="auto"
+          fit="contain"
           radius="md"
           className="object-cover"
         />
@@ -66,14 +91,12 @@ const ArticleCard = ({ article, category }) => {
         <Badge color="yellow" variant="light">
           {category}
         </Badge>
-        <Text
-          size="xl"
-          weight={700}
-          className="cursor-pointer hover:underline mt-2"
+        <h2
+          className="cursor-pointer text-xl hover:text-amber-500 hover:underline mt-2"
           onClick={() => window.open(article.url, '_blank')}
         >
           {article.title}
-        </Text>
+        </h2>
         <Text size="sm" color="gray" mt="sm">
           {article.description}
         </Text>
@@ -86,22 +109,21 @@ const ArticleCard = ({ article, category }) => {
             </Text>
           </Flex>
 
-          <Tooltip label="Bookmark this article" withArrow position="top">
-            <ActionIcon variant="outline" size="sm" color="blue">
-              <Bookmark size={18} />
+          <Tooltip label={bookmarks ?   "Bookmark this article": 'Remove Bookmark' } withArrow position="top">
+            <ActionIcon onClick={()=>toogleBookmarks(article)} variant="outline" size="sm" color={bookmarks ? 'blue' : 'red' }>
+              <Bookmark size={18} fill={bookmarks ? 'currentColor' : null} />
             </ActionIcon>
           </Tooltip>
-
 
           <Popover
             opened={opened}
             onChange={setOpened}
-            width={isLoading ? 350 : 500} 
+            width={isLoading ? 350 : 500}
             position="bottom"
             withArrow
             shadow="md"
           >
-             <Popover.Target>
+            <Popover.Target>
               <Tooltip label="Generate Summary" withArrow position="top">
                 <ActionIcon
                   variant="gradient"
@@ -114,7 +136,6 @@ const ArticleCard = ({ article, category }) => {
                 </ActionIcon>
               </Tooltip>
             </Popover.Target>
-
             <Popover.Dropdown style={{ minHeight: isLoading ? 150 : 'auto' }}>
               {isLoading ? (
                 <Flex align="center" justify="center" gap="sm">
@@ -128,7 +149,7 @@ const ArticleCard = ({ article, category }) => {
                   <motion.span
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className='text-gray-500'
+                    className="text-gray-500"
                     transition={{ repeat: Infinity, duration: 1.5 }}
                   >
                     Generating...
@@ -148,8 +169,17 @@ const ArticleCard = ({ article, category }) => {
                     </motion.span>
                   ))}
                   <Flex justify="flex-end" mt="sm">
-                    <Tooltip label={copySuccess ? "Copied!" : "Copy summary"} withArrow position="top">
-                      <ActionIcon variant="outline" size="sm" color="blue" onClick={handleCopy}>
+                    <Tooltip
+                      label={copySuccess ? 'Copied!' : 'Copy summary'}
+                      withArrow
+                      position="top"
+                    >
+                      <ActionIcon
+                        variant="outline"
+                        size="sm"
+                        color="blue"
+                        onClick={handleCopy}
+                      >
                         <Copy size={18} />
                       </ActionIcon>
                     </Tooltip>
@@ -157,11 +187,7 @@ const ArticleCard = ({ article, category }) => {
                 </motion.div>
               )}
             </Popover.Dropdown>
-
           </Popover>
-
-
-
         </Group>
       </div>
     </Card>

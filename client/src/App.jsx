@@ -21,6 +21,8 @@ const HeroSection = lazy(() => import('./components/HeroSection'))
 const Trending = lazy(() => import('./components/Trending'))
 const AboutUs = lazy(() => import('./components/AboutUs'))
 const Bookmarks = lazy(() => import('./pages/Bookmarks'))
+const News = lazy(() => import('./components/News'))
+// import OpenRoutes from './components/OpenRoutes';
 
 
 
@@ -29,6 +31,7 @@ import LoadingSpinner from './components/LoadingSpinner';
 import PreferenceProtectRoute from './components/PreferenceProtectRoute';
 import Channels from './components/Channels';
 import ForgetPassword from './components/ForgetPassword';
+import NewsPage from './pages/NewsPage';
 // import AboutUs from './components/AboutUs';
 // import Profile from './pages/Profile';
 
@@ -50,6 +53,7 @@ const App = () => {
         <Route element={<ProtectedRoutes/>}>
         <Route path='/' element={<Homepage/>}/>
         <Route path='/profile' element={<Profile/>}/>
+        <Route path='/news' element={<NewsPage/>}/>
         <Route element={<PreferenceProtectRoute/>}>
         <Route path='/preferences' element={<Preferences/>}/>
         </Route>
@@ -63,6 +67,8 @@ const App = () => {
         <Route path='/bookmarks' element={<Bookmarks/>}/>
         <Route path='/channels' element={<Channels/>}/>
         <Route path='/forgot-password' element={<ForgetPassword/>}/>
+        <Route path='/new' element={<News/>}/>
+
 
 
 
