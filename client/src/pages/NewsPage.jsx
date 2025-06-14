@@ -49,7 +49,7 @@ function NewsPage() {
   }
   return (
     <div className="flex min-h-screen">
-      <aside className="w-64 p-6 sticky top-0 h-screen border-l border-gray-100 bg-white">
+      {/* <aside className="w-64 p-6 sticky top-0 h-screen border-l border-gray-100 bg-white">
         <h2 className="text-lg font-semibold mb-4">Categories</h2>
         <div className="space-y-3">
           {categories.map((category) => (
@@ -62,7 +62,7 @@ function NewsPage() {
             </button>
           ))}
         </div>
-      </aside>
+      </aside> */}
 
       <main className="flex-1 overflow-y-auto p-8">
         <h1 className="text-4xl font-bold">🔥Latest News</h1>

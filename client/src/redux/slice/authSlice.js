@@ -13,6 +13,9 @@ const initialState = {
     name: getCookie('name') || null ,
     id: getCookie('id') || null ,
     email: getCookie('email') || null,
+
+    user: getCookie('user') || null,
+
     preferences: JSON.parse(localStorage.getItem('preferences')) || [] ,
 }
 
@@ -47,7 +50,7 @@ export const login = createAsyncThunk('/login', async (data, {rejectWithValue}) 
             data , {withCredentials : true});
             const verifyres = await axios.get(`${import.meta.env.VITE_API_URL}/auth/verify`,
                 {withCredentials : true});
-        return {...res.data , ...verifyres.data}
+        return {...res.data , ...verifyres.data, user: res.data.user,}
     } catch (error) {
         return rejectWithValue(error)
 
@@ -112,6 +115,10 @@ const authSlice = createSlice({
             state.name = action.payload.name
             state.id = action.payload.id
             state.email = action.payload.email
+
+            state.user = action.payload.user;
+            setCookie('user', JSON.stringify(action.payload.user));
+
             setCookie('isAuthenticated' , action.payload.authenticated)
             setCookie('name' , action.payload.name)
             setCookie('id' , action.payload.id)

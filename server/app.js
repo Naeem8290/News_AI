@@ -26,20 +26,20 @@ import admin from 'firebase-admin'
 const app = express();
 morgan('combined')
 
-app.use(
-    cors({
-        credentials: true,
-        origin: "https://news-ai-eight.vercel.app",
-    })
-);
-
-
 // app.use(
-//   cors({
-//       credentials: true,
-//       origin: "http://localhost:5173",
-//   })
+//     cors({
+//         credentials: true,
+//         origin: "https://news-ai-eight.vercel.app",
+//     })
 // );
+
+
+app.use(
+  cors({
+      credentials: true,
+      origin: "http://localhost:5173",
+  })
+);
 
 app.use(cookieParser())
 app.use(express.json());

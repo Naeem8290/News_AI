@@ -60,8 +60,12 @@ const Profile = () => {
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.4, ease: 'easeOut' }}
             >
-              <Badge color="blue" size="lg">
+              {/* <Badge color="blue" size="lg">
                 📌 Bookmarks: {bookmarksCount}
+              </Badge> */}
+               <Badge color="blue" size="lg">
+                📌 Bookmarks:{' '}
+                {bookmarks.length > 0 ? bookmarks.length : 0}
               </Badge>
             </motion.div>
 
@@ -96,17 +100,17 @@ const Profile = () => {
           <Tabs defaultValue="bookmarks" className="mt-6">
             <Tabs.List>
               <Tabs.Tab value="bookmarks">📌 Bookmarks</Tabs.Tab>
-              <Tabs.Tab value="liked">❤️ Liked News</Tabs.Tab>
+              {/* <Tabs.Tab value="liked">❤️ Liked News</Tabs.Tab>
               <Tabs.Tab value="ai-news">🤖 AI Recommendations</Tabs.Tab>
-              <Tabs.Tab value="preferences">⚙ Preferences</Tabs.Tab>
+              <Tabs.Tab value="preferences">⚙ Preferences</Tabs.Tab> */}
               <Tabs.Tab value="reading-history">⚙ Reading History</Tabs.Tab>
             </Tabs.List>
 
             <Tabs.Panel value="bookmarks" className="p-4">
-             <List data={bookmarks} />
+             <List data={bookmarks} type="bookmark" />
             </Tabs.Panel>
 
-            <Tabs.Panel value="liked" className="p-4">
+            {/* <Tabs.Panel value="liked" className="p-4">
               <Text className="text-gray-700">No liked news articles.</Text>
             </Tabs.Panel>
 
@@ -118,9 +122,9 @@ const Profile = () => {
 
             <Tabs.Panel value="preferences" className="p-4">
               <Text className="text-gray-700">No preferences set.</Text>
-            </Tabs.Panel>
+            </Tabs.Panel> */}
             <Tabs.Panel value="reading-history" className="p-4">
-            <List data={readingHistory}/>
+            <List data={readingHistory} type="history" />
             </Tabs.Panel>
           </Tabs>
         </motion.div>

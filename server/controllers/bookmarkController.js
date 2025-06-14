@@ -36,17 +36,34 @@ export const getBookmarks = async (req, res) => {
 };
 
 export const removeBookmark = async (req, res) => {
+
+   const userId = req.params.id;
+  const { articleId } = req.body;
+  console.log('Delete request body:', req.body);
+
+
   try {
-    const { id } = req.params;
-    const {articleUrl} = req.body
-    const user = await User.findById(id);
-    if (!user) res.status(404).json({ message: 'User not found' });
-    user.bookmarks = user.bookmarks.filter(
-      (b) => b.url !== articleUrl
+    await User.updateOne(
+      { _id: userId },
+      { $pull: { bookmarks: { _id: articleId } } }
     );
-    await user.save();
-    res.status(200).json({
-      message: 'Bookmarks removed',
-    });
-  } catch (error) {}
+
+    res.status(200).json({ articleId });
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to delete bookmark.' });
+  }
+
+  // try {
+  //   const { id } = req.params;
+  //   const {articleUrl} = req.body
+  //   const user = await User.findById(id);
+  //   if (!user) res.status(404).json({ message: 'User not found' });
+  //   user.bookmarks = user.bookmarks.filter(
+  //     (b) => b.url !== articleUrl
+  //   );
+  //   await user.save();
+  //   res.status(200).json({
+  //     message: 'Bookmarks removed',
+  //   });
+  // } catch (error) {}
 };

@@ -59,7 +59,7 @@ const LiveSearch = () => {
       const timeOut = setTimeout(fetchData, 500);
       return () => clearTimeout(timeOut);
     }, [query]);
-    console.log(results);
+    // console.log(results);
 
     
   return (

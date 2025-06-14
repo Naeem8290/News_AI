@@ -32,6 +32,7 @@ import PreferenceProtectRoute from './components/PreferenceProtectRoute';
 import Channels from './components/Channels';
 import ForgetPassword from './components/ForgetPassword';
 import NewsPage from './pages/NewsPage';
+import Adminpage from './pages/Adminpage';
 // import AboutUs from './components/AboutUs';
 // import Profile from './pages/Profile';
 
@@ -76,6 +77,8 @@ const App = () => {
 
         <Route path='/terms' element={<Reduxt/>}/>
         <Route path='/privacy' element={<Thunkapi/>}/>
+
+        <Route path='/admin' element={<Adminpage/>}/>
       </Routes>
       </Suspense>
       <Footer/>

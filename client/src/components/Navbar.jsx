@@ -19,7 +19,7 @@ const Navbar = () => {
   const { authenticated } = useSelector((state) => state.auth)
 
   return (
-    <nav className='bg-opacity-80 bg-white h-14  border-b border-b-gray-200 backdrop-blur-md p-4 text-black sticky top-0 z-50'>
+    <nav className='bg-opacity-80 bg-white h-14  border-b border-b-gray-200 backdrop-blur-md p-4 text-black sticky top-0 z-[9999]'>
 
       <div className='container mx-auto h-full flex items-center justify-between px-2 relative'>
         <motion.h1 initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} className='text-2xl font-semibold'>NEWSAI</motion.h1>
@@ -30,7 +30,7 @@ const Navbar = () => {
 
         <ul className='hidden md:flex gap-4'>
           {
-            ['Home', 'Categories', 'Channels', 'About', 'News'].map((item) =>
+            ['Home', 'Categories', 'About', 'News'].map((item) =>
             (
               <motion.li whileHover={{ scale: 1.2 }} transition={{ type: 'spring', stiffness: 100 }} className='hover:text-gray-600' key={item}>
                 <Link to={`/${item.toLowerCase()}`}>{item}</Link></motion.li>
@@ -72,24 +72,24 @@ const Navbar = () => {
 
 
       {isOpen && (
-        <motion.div className="md:hidden mt-4 p-4 bg-gray-100 absolute top-16 left-0 right-0 z-50 h-full"
+        <motion.div className="md:hidden mt-4 p-4 bg-gray-200 absolute left-0 right-0 z-[9999] h-auto"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}>
+          transition={{ duration: 0.9 }}>
           <ul className="space-y-4">
-            {['Home', 'Categories', 'Channels', 'About', 'News'].map((item) => (
-              <li key={item} className="hover:text-gray-700">
-                <Link to={`/${item.toLowerCase()}`}>{item}</Link>
+            {['Home', 'Categories', 'About', 'News'].map((item) => (
+              <li key={item} className="hover:text-gray-500">
+                <Link to={`/${item.toLowerCase()}`} onClick={() => setIsOpen(false)}>{item}</Link>
               </li>
             ))}
-            {!authenticated && <div>
+            {!authenticated && <div  className="hover:border-blue-500">
               <li>
-                <Link to="/login" className="block py-2">
+                <Link to="/login" className="block py-2" onClick={() => setIsOpen(false)}>
                   <Button variant='white'>Login</Button>
                 </Link>
               </li>
               <li>
-                <Link to="/register" className="block py-2">
+                <Link to="/register" className="block py-2" onClick={() => setIsOpen(false)}>
                   <Button variant='white'>Register</Button>
                 </Link>
               </li>

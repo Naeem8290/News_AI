@@ -23,27 +23,26 @@ function ProfileDropDown() {
 
           <Link to="/profile">
             {' '}
-            <Menu.Item leftSection={<User size={16} />}>Profile</Menu.Item>
+            <Menu.Item leftsection={<User size={16} />}>Profile</Menu.Item>
           </Link>
           <Menu.Item
-            leftSection={<Bookmark size={16} />}
-            onClick={handleSignOut}
+            leftsection={<Bookmark size={16} />}
           >
             Bookmarks
           </Menu.Item>
-          <Menu.Item leftSection={<Book size={16} />} onClick={handleSignOut}>
+          <Menu.Item leftsection={<Book size={16} />} >
             Reading History
           </Menu.Item>
 
           <Divider />
           <Menu.Item
-            leftSection={<LogOut size={16} />}
+            leftsection={<LogOut size={16} />}
             color="red"
             onClick={handleSignOut}
           >
             Sign Out
           </Menu.Item>
-          <Text leftSection={<Mail size={16} />} ml={20} size="sm">
+          <Text leftsection={<Mail size={16} />} ml={20} size="sm">
             {getCookie('email')}
           </Text>          
         </Menu.Dropdown>

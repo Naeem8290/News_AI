@@ -82,26 +82,26 @@ const Register = () => {
     // console.log(errors.confirmPassword);
 
 
-    const [pimg, setPImg] = useState("")
+    // const [pimg, setPImg] = useState("")
 
 
-    // const onSubmit = (data) => {
-    //     console.log(data);
-    //     Dispatch(signUp(data))
-    // }
+    const onSubmit = (data) => {
+        console.log(data);
+        Dispatch(signUp(data))
+    }
 
-    const onSubmit = async (data) => {
-        const formData = new FormData();
-        formData.append("name", data.name);
-        formData.append("email", data.email);
-        formData.append("password", data.password);
-        formData.append("pimg", pimg);
+    // const onSubmit = async (data) => {
+    //     const formData = new FormData();
+    //     formData.append("name", data.name);
+    //     formData.append("email", data.email);
+    //     formData.append("password", data.password);
+    //     formData.append("pimg", pimg);
     
-        const response = await Dispatch(signUp(formData));
-        if (response.payload?.pimg) {
-            document.cookie = `pimg=${response.payload.pimg}; path=/;`;
-        }
-    };
+    //     const response = await Dispatch(signUp(formData));
+    //     if (response.payload?.pimg) {
+    //         document.cookie = `pimg=${response.payload.pimg}; path=/;`;
+    //     }
+    // };
     
     
 
@@ -177,7 +177,7 @@ const Register = () => {
 
 
 
-                    <input id="form1" type="file" className="form-control mt-2" onChange={(e) => { setPImg(e.target.files[0]) }} />
+                    {/* <input id="form1" type="file" className="form-control mt-2" onChange={(e) => { setPImg(e.target.files[0]) }} /> */}
 
 
 

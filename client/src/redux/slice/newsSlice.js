@@ -12,7 +12,7 @@ const initialState = {
   totalItem: 0,
   readingHistory: [],
   bookmarks: [],
-  
+
   bookmarkHistory: [],
 };
 
@@ -126,21 +126,41 @@ export const addBookmarks = createAsyncThunk(
   }
 );
 
+// export const removeBookmarks = createAsyncThunk(
+//   '/removeBookmarks',
+//   async (articleUrl, { rejectWithValue }) => {
+//     const id = getCookie('id');
+//     try {
+//       const res = await axios.delete(
+//         `${import.meta.env.VITE_API_URL}/api/${id}/bookmarks`,
+//         {
+//           data: { articleUrl }
+//         }
+//       );
+//       return res.data;
+//     } catch (error) {
+//       return rejectWithValue(error.message);
+//     }
+//   }
+// );
+
 export const removeBookmarks = createAsyncThunk(
   '/removeBookmarks',
-  async (articleUrl, { rejectWithValue }) => {
-    const id = getCookie('id');
+  async ({ id, articleId }, { rejectWithValue }) => {
     try {
       const res = await axios.delete(
         `${import.meta.env.VITE_API_URL}/api/${id}/bookmarks`,
-        { articleUrl }
+        {
+          data: { articleId } // ✅ Send articleId in request body
+        }
       );
-      return res.data;
+      return { articleId }; // manually return for reducer
     } catch (error) {
       return rejectWithValue(error.message);
     }
   }
 );
+
 
 
 export const getBookmarks = createAsyncThunk(
@@ -220,6 +240,10 @@ const newsSlice = createSlice({
         state.loading = true;
       })
       .addCase(addBookmarks.fulfilled, (state, action) => {
+        // const existing = state.bookmarks.some(b => b.article.url === action.payload.article.url);
+        // if (!existing) {
+        //   state.bookmarks.push(action.payload.article); // Immer allows this (okay with createSlice)
+        // }
         console.log(action.payload);
         state.loading = false;
       })
@@ -231,7 +255,11 @@ const newsSlice = createSlice({
         state.loading = true;
       })
       .addCase(removeBookmarks.fulfilled, (state, action) => {
+// state.bookmarks = state.bookmarks.filter(b => b.articleId !== action.payload.articleId);
+
         console.log(action.payload);
+        const deletedId = action.payload.articleId;
+        state.bookmarks = state.bookmarks.filter(b => b._id !== deletedId);
         state.loading = false;
       })
       .addCase(removeBookmarks.rejected, (state, action) => {

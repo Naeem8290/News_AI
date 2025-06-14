@@ -33,7 +33,7 @@ export default function HeroSection() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4, duration: 0.6 }}
         >
-          <button className="bg-sky-500 text-white px-8 py-4 text-lg font-semibold rounded-lg hover:bg-sky-600 transition-transform transform hover:scale-105 flex items-center">
+          <button className="bg-sky-500 text-white px-8 py-4 text-lg font-semibold rounded-lg hover:bg-sky-600 transition-transform transform hover:scale-105 flex items-center" >
             <Sparkles className="mr-2" size={24} /> Start Exploring
           </button>
         </motion.div>

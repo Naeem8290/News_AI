@@ -27,6 +27,13 @@ const UserSchema = new mongoose.Schema({
   preferences: [String],
   bookmarks: [BookmarkSchema],
   readingHistory: [ReadingHistorySchema], 
+
+  role: {
+    type: String,
+    enum: ['user', 'admin'],
+    default: 'user',
+  },
+
 });
 
 const User = mongoose.model('User', UserSchema);

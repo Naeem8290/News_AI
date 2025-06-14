@@ -39,6 +39,14 @@ export const login = async (req, res) => {
       // token,
       preferences: user.preferences ,
       message: 'login successfull',
+
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role, // ✅ Send the role to the frontend
+      },
+
     });
   } catch (error) {
     console.error('Login Error:', error);
@@ -62,6 +70,9 @@ export const verify = async(req , res) => {
       id: req.user.id,
       email: req.user.email,
       name: req.user.name,
+
+      role: req.user.role,
+      
     });
 
   } catch (error) {
@@ -78,7 +89,7 @@ export const verify = async(req , res) => {
 export const register = async (req, res) => {
   try {
     const { name, password, email } = req.body;
-    const filename = req.file.filename
+    // const filename = req.file.filename
 
     //check if user is already registered
     const user = await User.findOne({ email });
@@ -95,7 +106,7 @@ export const register = async (req, res) => {
        name, 
        password : hashedPassword, 
        email ,
-       PImg: filename ,
+      //  PImg: filename ,
       });
 
     res.status(201).json({
@@ -164,5 +175,28 @@ export const googleLogin = async (req, res) => {
   } catch (err) {
     console.error('Google Login Error:', err);
     res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+
+
+
+//------------------------------------------------------------------------
+
+export const requireAdmin = async (req, res, next) => {
+  try {
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token) return res.status(401).json({ message: "Unauthorized" });
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.id);
+    if (!user || user.role !== 'admin') {
+      return res.status(403).json({ message: "Access denied" });
+    }
+
+    req.user = user;
+    next();
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
   }
 };

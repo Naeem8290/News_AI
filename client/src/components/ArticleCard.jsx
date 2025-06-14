@@ -9,21 +9,60 @@ import {
   Popover,
   Tooltip,
 } from '@mantine/core';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import { Eye, Bookmark, Sparkles, Copy, Share2 } from 'lucide-react';
-import { addBookmarks , removeBookmarks} from '../redux/slice/newsSlice';
+import { addBookmarks, removeBookmarks } from '../redux/slice/newsSlice';
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+
 const ArticleCard = ({ article, category }) => {
+
+  
+    const dispatch = useDispatch();
+
+
+
+  const bookmarksList = useSelector((state) => state.news.bookmarks);
+
+const isBookmarked = useSelector((state) =>
+  state.news.bookmarks.some((b) => b.url === article.url)
+);
+
+
+
   const [opened, setOpened] = useState(false);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [summary, setSummary] = useState('');
   const [copySuccess, setCopySuccess] = useState(false);
-  const [bookmarks, setBookmarks] = useState(true);
+  // const [bookmarks, setBookmarks] = useState(true);
+  const [localBookmarked, setLocalBookmarked] = useState(isBookmarked);
 
-  const dispatch = useDispatch();
+  const [randomViews, setRandomViews] = useState(0);
+
+  // Update local state when Redux state changes
+useEffect(() => {
+  setLocalBookmarked(isBookmarked);
+}, [isBookmarked]);
+
+const handleBookmarkClick = () => {
+  // Immediate local UI update
+  setLocalBookmarked(!localBookmarked);
+  // Then trigger the actual bookmark action
+  toogleBookmarks(article);
+};
+
+
+
+  useEffect(() => {
+    if (!article.views) {
+      setRandomViews(Math.floor(Math.random() * 500));
+    }
+  }, [article.views]);
+
+  // const dispatch = useDispatch();
   const handleSummarize = async () => {
     setOpened(true);
     setIsLoading(true);
@@ -47,26 +86,69 @@ const ArticleCard = ({ article, category }) => {
     setTimeout(() => setCopySuccess(false), 2000);
   };
 
-  const toogleBookmarks = (n) => {
-    console.log(n)
-    const data = {
-    article : {
-      articleId : n._id ,
-      title : n.title ,
-      source : n.source.name ,
-      url : n.url ,
-      imageUrl : n.urlToImage,
-      publishedAt : n.publishedAt
-    }
-  }
-    if (bookmarks) {
-     dispatch(addBookmarks(data))
-    } else {
-     dispatch(removeBookmarks(n.url))
-    }
-
-    setBookmarks(!bookmarks);
+  const toogleBookmarks = (article) => {
+  const bookmarkData = {
+    articleId: article._id || article.url, // fallback to url if no _id
+    title: article.title,
+    source: article.source?.name || 'Unknown',
+    url: article.url,
+    imageUrl: article.urlToImage,
+    publishedAt: article.publishedAt,
   };
+
+  if (isBookmarked) {
+    dispatch(removeBookmarks(article.url));
+  } else {
+    dispatch(addBookmarks({ article: bookmarkData }));
+  }
+};
+
+//   const toogleBookmarks = (n) => {
+//   const data = {
+//     articleId: n._id,
+//     title: n.title,
+//     source: n.source.name,
+//     url: n.url,
+//     imageUrl: n.urlToImage,
+//     publishedAt: n.publishedAt,
+//   };
+
+//   if (isBookmarked) {
+//     dispatch(removeBookmarks(n.url)); // payload is string URL
+//   } else {
+//     dispatch(addBookmarks({ article: data })); // payload is { article: data }
+//   }
+// };
+
+
+
+
+  // const toogleBookmarks = (n) => {
+  //   console.log(n)
+  //   const data = {
+  //     article: {
+  //       articleId: n._id,
+  //       title: n.title,
+  //       source: n.source.name,
+  //       url: n.url,
+  //       imageUrl: n.urlToImage,
+  //       publishedAt: n.publishedAt
+  //     }
+  //   }
+  //   if (isBookmarked) {
+  //     dispatch(removeBookmarks(n.url));
+  //   } else {
+  //     dispatch(addBookmarks(data));
+  //   }
+  // };
+  //   if (bookmarks) {
+  //    dispatch(addBookmarks(data))
+  //   } else {
+  //    dispatch(removeBookmarks(n.url))
+  //   }
+
+  //   setBookmarks(!bookmarks);
+  // };
 
   return (
     <Card
@@ -105,15 +187,58 @@ const ArticleCard = ({ article, category }) => {
           <Flex align="center" gap="xs">
             <Eye size={16} />
             <Text size="sm">
-              {article.views || Math.floor(Math.random() * 500)}
+              {article.views ?? randomViews}
             </Text>
           </Flex>
 
-          <Tooltip label={bookmarks ?   "Bookmark this article": 'Remove Bookmark' } withArrow position="top">
-            <ActionIcon onClick={()=>toogleBookmarks(article)} variant="outline" size="sm" color={bookmarks ? 'blue' : 'red' }>
-              <Bookmark size={18} fill={bookmarks ? 'currentColor' : null} />
+
+     {/* <Tooltip
+  label={isBookmarked ? 'Remove Bookmark' : 'Bookmark this article'}
+  withArrow
+  position="top"
+>
+  <ActionIcon
+    onClick={() => toogleBookmarks(article)}
+    variant="light"
+    size="lg"
+    color={isBookmarked ? 'yellow' : 'gray'}
+    loading={isLoading} // optional loading state
+  >
+    <Bookmark
+      size={18}
+      fill={isBookmarked ? 'currentColor' : 'none'}
+    />
+  </ActionIcon>
+</Tooltip> */}
+
+  <Tooltip
+    label={localBookmarked ? 'Remove Bookmark' : 'Bookmark this article'}
+    withArrow
+    position="top"
+  >
+    <ActionIcon
+      onClick={handleBookmarkClick}
+      variant="light"
+      size="lg"
+      color={localBookmarked ? 'yellow' : 'gray'}
+    >
+      <Bookmark
+        size={18}
+        fill={localBookmarked ? 'currentColor' : 'none'}
+        className="transition-colors duration-200"
+      />
+    </ActionIcon>
+  </Tooltip>
+
+
+
+
+          
+          {/* <Tooltip label={isBookmarked ? 'Remove Bookmark' : 'Bookmark this article'} withArrow position="top">
+            <ActionIcon onClick={()=>toogleBookmarks(article)} variant="outline" size="sm" color={isBookmarked ? 'blue' : 'blue' }>
+              <Bookmark size={18} fill={isBookmarked ? 'currentColor' : null} />
             </ActionIcon>
-          </Tooltip>
+          </Tooltip> */}
 
           <Popover
             opened={opened}
