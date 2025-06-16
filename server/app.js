@@ -33,28 +33,9 @@ morgan('combined')
 //     })
 // );
 
-// const allowedOrigins = [
-//   "http://localhost:5173",
-//   "http://newsaiproject.s3-website-us-east-1.amazonaws.com"
-// ];
-
-// app.use(
-//   cors({
-//     origin: (origin, callback) => {
-//       if (!origin || allowedOrigins.includes(origin)) {
-//         callback(null, true);
-//       } else {
-//         callback(new Error("Not allowed by CORS"));
-//       }
-//     },
-//     credentials: true
-//   })
-// );
-
 const allowedOrigins = [
   "http://localhost:5173",
-  "http://newsaiproject.s3-website-us-east-1.amazonaws.com",
-  "http://backend.newsaiproject.local:3000"  // <-- your new backend domain
+  "http://3.91.83.171"
 ];
 
 app.use(
@@ -69,6 +50,25 @@ app.use(
     credentials: true
   })
 );
+
+// const allowedOrigins = [
+//   "http://localhost:5173",
+//   "http://newsaiproject.s3-website-us-east-1.amazonaws.com",
+//   "http://backend.newsaiproject.local:3000"  // <-- your new backend domain
+// ];
+
+// app.use(
+//   cors({
+//     origin: (origin, callback) => {
+//       if (!origin || allowedOrigins.includes(origin)) {
+//         callback(null, true);
+//       } else {
+//         callback(new Error("Not allowed by CORS"));
+//       }
+//     },
+//     credentials: true
+//   })
+// );
 
 
 
