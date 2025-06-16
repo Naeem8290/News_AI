@@ -33,13 +33,32 @@ morgan('combined')
 //     })
 // );
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://newsaiproject.s3-website-us-east-1.amazonaws.com"
+];
 
 app.use(
   cors({
-      credentials: true,
-      origin: "http://localhost:5173",
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true
   })
 );
+
+
+
+// app.use(
+//   cors({
+//       credentials: true,
+//       origin: "http://localhost:5173",
+//   })
+// );
 
 app.use(cookieParser())
 app.use(express.json());
@@ -137,6 +156,6 @@ app.use('/api' , aiRoutes)
 
 app.use('/api/users', crudRoutes);
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT,  "0.0.0.0" , () => {
   console.log(`Server is running on the PORT ${process.env.PORT}`);
 });

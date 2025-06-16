@@ -2,6 +2,9 @@ import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 
 export default function HeroSection() {
+  const apiUrl = import.meta.env.VITE_API_URL;
+console.log(apiUrl); // Will log localhost or production IP based on environment
+
   return (
     <section className="relative h-screen text-black flex items-center justify-center px-6 text-center overflow-hidden">
       <div className="absolute inset-0  opacity-80 blur-3xl" />
