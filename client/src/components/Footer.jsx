@@ -8,7 +8,7 @@ const Footer = () => {
 
 
   return (
-    <footer id="footer" className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white p-6 md:p-12">
+    <footer id="footer" className="bg-gradient-to-r from-gray-700 via-gray-800 to-gray-900 text-white p-6 md:p-12">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
         
     
@@ -18,7 +18,7 @@ const Footer = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-2xl font-bold">AI News Aggregator</h2>
+          <h2 className="text-2xl font-bold"><img id="logos" src="/logos.png" alt="" /></h2>
           <p className="text-gray-400">
             Stay updated with the latest AI-powered news summaries and insights.
           </p>
@@ -72,7 +72,7 @@ const Footer = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        © {new Date().getFullYear()} AI News Aggregator. All Rights Reserved.
+        © {new Date().getFullYear()} AInformer. All Rights Reserved.
       </motion.div>
     </footer>
   );

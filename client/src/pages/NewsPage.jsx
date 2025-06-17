@@ -48,7 +48,7 @@ function NewsPage() {
   dispatch(addReadingHistory(data))
   }
   return (
-    <div className="flex min-h-screen">
+    <div id='newsdiv' className="flex min-h-screen">
       {/* <aside className="w-64 p-6 sticky top-0 h-screen border-l border-gray-100 bg-white">
         <h2 className="text-lg font-semibold mb-4">Categories</h2>
         <div className="space-y-3">
@@ -78,7 +78,7 @@ function NewsPage() {
           type="text"
           placeholder="Search news..."
           onChange={(e) => setSearch(e.target.value)}
-          className="w-80 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 mt-4"
+          className="w-80 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 mt-4 bg-white"
         />
 
         <div className="mt-6 space-y-6">

@@ -1,7 +1,7 @@
 import React, { lazy, Suspense, useEffect } from 'react'
 import Navbar from './components/Navbar'
 import '@mantine/core/styles.css';
-import { Routes , Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import Register from './pages/Register'
 import Preferences from './pages/Preferences';
@@ -33,6 +33,7 @@ import Channels from './components/Channels';
 import ForgetPassword from './components/ForgetPassword';
 import NewsPage from './pages/NewsPage';
 import Adminpage from './pages/Adminpage';
+import Contact from './components/Contact';
 // import AboutUs from './components/AboutUs';
 // import Profile from './pages/Profile';
 
@@ -47,41 +48,46 @@ const App = () => {
 
   return (
     <div>
-      <Navbar/>
-      <Toaster/>
-      <Suspense fallback={<LoadingSpinner/>}>
-      <Routes>
-        <Route element={<ProtectedRoutes/>}>
-        <Route path='/' element={<Homepage/>}/>
-        <Route path='/profile' element={<Profile/>}/>
-        <Route path='/news' element={<NewsPage/>}/>
-        <Route element={<PreferenceProtectRoute/>}>
-        <Route path='/preferences' element={<Preferences/>}/>
-        </Route>
-        </Route>
-        
-        <Route path='/login' element={<Login/>}/>
-        <Route path='/register' element={<Register/>}/>
-        <Route path='/categories' element={<Category/>}/>
-        <Route path='/home' element={<HeroSection/>}/>
-        <Route path='/about' element={<AboutUs/>}/>
-        <Route path='/bookmarks' element={<Bookmarks/>}/>
-        <Route path='/channels' element={<Channels/>}/>
-        <Route path='/forgot-password' element={<ForgetPassword/>}/>
-        <Route path='/new' element={<News/>}/>
+      <Navbar />
+      <Toaster />
+      <Suspense fallback={<LoadingSpinner />}>
+        <Routes>
+          <Route element={<ProtectedRoutes />}>
+            <Route path='/' element={<Homepage />} />
+            <Route path='/profile' element={<Profile />} />
+            <Route path='/news' element={<NewsPage />} />
+            <Route element={<PreferenceProtectRoute />}>
+              <Route path='/preferences' element={<Preferences />} />
+            </Route>
+          </Route>
+
+
+
+          <Route path="/contact" element={<Contact />} />
+
+          <Route path="/forgot-password" element={<ForgetPassword />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+          <Route path='/categories' element={<Category />} />
+          <Route path='/home' element={<HeroSection />} />
+          <Route path='/about' element={<AboutUs />} />
+          <Route path='/bookmarks' element={<Bookmarks />} />
+          <Route path='/channels' element={<Channels />} />
+          <Route path='/forgot-password' element={<ForgetPassword />} />
+          <Route path='/new' element={<News />} />
 
 
 
 
 
 
-        <Route path='/terms' element={<Reduxt/>}/>
-        <Route path='/privacy' element={<Thunkapi/>}/>
+          {/* <Route path='/terms' element={<Reduxt />} /> */}
+          {/* <Route path='/privacy' element={<Thunkapi />} /> */}
 
-        <Route path='/admin' element={<Adminpage/>}/>
-      </Routes>
+          <Route path='/admin' element={<Adminpage />} />
+        </Routes>
       </Suspense>
-      <Footer/>
+      <Footer />
     </div>
   )
 }

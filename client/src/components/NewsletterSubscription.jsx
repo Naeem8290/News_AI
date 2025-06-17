@@ -18,7 +18,7 @@ const NewsletterSubscription = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="w-full my-10  text-black py-10 px-5 md:px-20 text-center"
+      className="w-full py-10  text-black py-10 px-5 md:px-20 text-center"
     >
       <h2 className="text-2xl font-bold mb-2">
         📩 Get AI-Powered News Updates
@@ -29,11 +29,12 @@ const NewsletterSubscription = () => {
 
       <div className="flex flex-col md:flex-row items-center justify-center gap-3 max-w-2xl mx-auto">
         <input
+        
           type="email"
           placeholder="Enter your email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full md:w-2/3 px-4 py-3 border-b border-gray-400 rounded-md text-black focus:outline-none"
+          className="bg-white w-full md:w-2/3 px-4 py-3 border-b border-gray-400 rounded-md text-black focus:outline-none"
         />
         <button
           onClick={handleSubscribe}

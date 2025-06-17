@@ -66,7 +66,7 @@ const Login = () => {
 
 
     return (
-        <div className="bg-gray-100 h-screen flex justify-center items-center">
+        <div id='logindiv' className="bg-gray-100 h-screen flex justify-center items-center">
             <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -105,7 +105,7 @@ const Login = () => {
 
                     <Button fullWidth variant="outline" onClick={()=>Dispatch(signInWithGoogle())} leftSection={<GoogleIcon/>}>Login with Google</Button>
 
-                    <p><a href="/forgot" className='flex justify-center'>Forgot password?</a></p>
+                    <p><a href="/forgot-password" className='flex justify-center'>Forgot password?</a></p>
                 </form>
             </motion.div>
         </div>

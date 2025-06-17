@@ -36,7 +36,7 @@ const EditorialsSection = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="w-full bg-gray-50 py-12 px-5 md:px-20"
+      className="w-full py-12 px-5 md:px-20"
     >
       <h2 className="text-3xl font-bold text-gray-900 text-center mb-8">
         📰 Featured Editorials

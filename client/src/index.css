@@ -25,3 +25,80 @@
   height: 100vh;
 
 } */
+
+
+/* index.css — force background color across all elements */
+/* body, html, * {
+  background-color: #567b9f !important; /* ← your desired color */
+/* } */
+
+
+#logindiv , #registerdiv , #newsdiv , #aboutdiv , #preferencesdiv {
+  background-image: linear-gradient(to right top, #ddacc8, #d6a8cf, #caa6d7, #baa5e0, #a5a5e7, #92aef2, #7ab6fa, #5dbffe, #45d0ff, #3ae1ff, #4af0fd, #6afef4);
+}
+
+
+.editorialdiv , .newslatterdiv ,  .categorydiv ,  .herodiv  {
+  background-image: linear-gradient(to right top, #ddacc8, #d6a8cf, #caa6d7, #baa5e0, #a5a5e7, #92aef2, #7ab6fa, #5dbffe, #45d0ff, #3ae1ff, #4af0fd, #6afef4);
+}
+
+
+#homediv {
+  background-image: linear-gradient(to right top, #ddacc8, #d6a8cf, #caa6d7, #baa5e0, #a5a5e7, #92aef2, #7ab6fa, #5dbffe, #45d0ff, #3ae1ff, #4af0fd, #6afef4) !important;
+}
+
+
+ #profilediv {
+  background-image: linear-gradient(to right top, #ddacc8, #d6a8cf, #caa6d7, #baa5e0, #a5a5e7, #92aef2, #7ab6fa, #5dbffe, #45d0ff, #3ae1ff, #4af0fd, #6afef4) !important;
+    background-size: cover !important;
+  background-repeat: no-repeat !important;
+}
+
+
+body {
+ background-image: linear-gradient(to right top, #ddacc8, #d6a8cf, #caa6d7, #baa5e0, #a5a5e7, #92aef2, #7ab6fa, #5dbffe, #45d0ff, #3ae1ff, #4af0fd, #6afef4);
+}
+
+/* #nav {
+ background-image: linear-gradient(to right, #ddacc8, #d6a8cf, #caa6d7, #baa5e0, #a5a5e7, #92aef2, #7ab6fa, #5dbffe, #45d0ff, #3ae1ff, #4af0fd, #6afef4);
+} */
+
+/* #nav {
+background-color: #7c92b3; /* Tailwind's slate-500 */
+/* color: white;
+} */
+
+#nav {
+  background-color: rgba(255, 255, 255, 0.2); 
+backdrop-filter: blur(10px);
+color: #fff;
+}
+
+#logo {
+  height: 8vh;
+  margin-top: 1px;
+}
+
+#logos {
+  height: 15vh;
+
+}
+
+#contactdiv {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  border-radius: 50px;
+  width: 500px;
+}
+
+#formbutton {
+  border-radius: 50px;
+}
+
+/* #footer {
+  background-color: #7c92b3; /* Tailwind's slate-500 */
+/* color: white;
+}  */
+
+
+

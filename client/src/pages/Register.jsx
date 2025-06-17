@@ -109,7 +109,7 @@ const Register = () => {
 
 
     return (
-        <div className="bg-gray-100 h-screen flex justify-center items-center">
+        <div id='registerdiv' className="bg-gray-100 h-screen flex justify-center items-center">
             <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -181,9 +181,9 @@ const Register = () => {
 
 
 
-                    <p className='text-sm'>By signing up, you agree to our <a href="/terms" className='text-blue-400'>Terms</a>, <a href="/privacy" className='text-blue-400'>Privacy Policy</a> and <a href="/policy" className='text-blue-400'>Cookies Policy</a>.</p>
+                    <p className='text-sm'>By signing up, you agree to our <a href="" className='text-blue-400'>Terms</a>, <a href="" className='text-blue-400'>Privacy Policy</a> and <a href="" className='text-blue-400'>Cookies Policy</a>.</p>
                     <Button type='submit' fullWidth>{loading ? <Loader size={16} color='white' /> : 'SignUp'}</Button>
-                    <p className='flex justify-center'>Have an account? <a href="/login" className='text-blue-500'>Log in</a></p>
+                    <p className='flex justify-center'>Have an account? <a href="/login" className='text-blue-500'> Log in</a></p>
                 </form>
             </motion.div>
         </div>

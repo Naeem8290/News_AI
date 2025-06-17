@@ -4,10 +4,11 @@ import Category from '../components/Category'
 import EditorialsSection from '../components/EditorialsSection'
 import NewsletterSubscription from '../components/NewsletterSubscription'
 
+
 const Homepage = () => {
   return (
 
-    <div>
+    <div  id='homediv'>
         <HeroSection/>
         <Category/>
         <EditorialsSection/>

@@ -34,13 +34,14 @@ const Category = () => {
   const allArticles = data?.pages.flatMap((page) => page.news) || [];
 
   return (
+    <div  className='categorydiv'>
     <div className="py-12 px-10 max-w-5xl mx-auto">
       <h1 className="text-center space-y-10 my-6 font-bold text-2xl">Categories</h1>
 
       <Tabs defaultValue="gallery" onChange={(value) => setCategory(value.toLowerCase())}>
         <Tabs.List>
           {categories.map((cat) => (
-            <Tabs.Tab key={cat} className="text-gray-200" size="lg" value={cat}>
+            <Tabs.Tab  key={cat} className="text-gray-200" size="lg" value={cat}>
               {cat}
             </Tabs.Tab>
           ))}
@@ -70,6 +71,7 @@ const Category = () => {
           )}
         </InfiniteScroll>
       </div>
+    </div>
     </div>
   );
 };

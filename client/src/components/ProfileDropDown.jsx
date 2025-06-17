@@ -19,20 +19,20 @@ function ProfileDropDown() {
         </Menu.Target>
 
         <Menu.Dropdown>
-          <Menu.Label>Profile</Menu.Label>
+          <Menu.Label>User</Menu.Label>
 
           <Link to="/profile">
             {' '}
             <Menu.Item leftsection={<User size={16} />}>Profile</Menu.Item>
           </Link>
-          <Menu.Item
+          {/* <Menu.Item
             leftsection={<Bookmark size={16} />}
           >
             Bookmarks
           </Menu.Item>
           <Menu.Item leftsection={<Book size={16} />} >
             Reading History
-          </Menu.Item>
+          </Menu.Item> */}
 
           <Divider />
           <Menu.Item

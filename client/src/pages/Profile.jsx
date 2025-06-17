@@ -27,13 +27,13 @@ const Profile = () => {
     dispatch(getBookmarks())
   }, []);
   return (
+    <motion.div id='profilediv'>
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
-      <Container className="max-w-2xl mx-auto p-6 bg-white rounded-lg">
-        <Card className="p-6 shadow-md">
+      <Container className="max-w-2xl mx-auto p-6 rounded-lg">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -41,6 +41,7 @@ const Profile = () => {
             className="flex items-center gap-6"
           >
             <Avatar
+            color='black'
               size={100}
               radius="xl"
               src="https://via.placeholder.com/100"
@@ -50,7 +51,7 @@ const Profile = () => {
               <h1 className="text-2xl font-bold">
                 {getCookie('name').toUpperCase()}
               </h1>
-              <h2 className="text-gray-500">{getCookie('email')}</h2>
+              <h2 className="text-gray-800">{getCookie('email')}</h2>
             </div>
           </motion.div>
 
@@ -86,11 +87,10 @@ const Profile = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.5 }}
           >
-            <Button variant="outline" fullWidth color="blue" className="mt-4">
+            <Button variant="outline" fullWidth color="black" className="mt-4" onClick={() => alert('❌ You are not eligible for Profile Edit.')}>
               Edit Profile
             </Button>
           </motion.div>
-        </Card>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -129,6 +129,7 @@ const Profile = () => {
           </Tabs>
         </motion.div>
       </Container>
+    </motion.div>
     </motion.div>
   );
 };

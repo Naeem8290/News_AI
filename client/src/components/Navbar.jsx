@@ -19,10 +19,15 @@ const Navbar = () => {
   const { authenticated } = useSelector((state) => state.auth)
 
   return (
-    <nav className='bg-opacity-80 bg-white h-14  border-b border-b-gray-200 backdrop-blur-md p-4 text-black sticky top-0 z-[9999]'>
+    <nav id='nav' className='bg-opacity-80 bg-white h-14 border-b border-b-gray-200 backdrop-blur-md p-4 text-black sticky top-0 z-[9999]'>
 
       <div className='container mx-auto h-full flex items-center justify-between px-2 relative'>
-        <motion.h1 initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} className='text-2xl font-semibold'>NEWSAI</motion.h1>
+        <motion.h1 initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }} 
+          className='text-2xl font-semibold'>
+          <img id='logo' src="/logos.png" alt="" />
+          </motion.h1>
 
         <div className="w-1/3">
           <LiveSearch />
@@ -32,7 +37,7 @@ const Navbar = () => {
           {
             ['Home', 'Categories', 'About', 'News'].map((item) =>
             (
-              <motion.li whileHover={{ scale: 1.2 }} transition={{ type: 'spring', stiffness: 100 }} className='hover:text-gray-600' key={item}>
+              <motion.li whileHover={{ scale: 1.2 }} transition={{ type: 'spring', stiffness: 100 }} className='text-gray-900 hover:text-gray-600' key={item}>
                 <Link to={`/${item.toLowerCase()}`}>{item}</Link></motion.li>
             )
             )
@@ -43,10 +48,11 @@ const Navbar = () => {
         <div className='flex space-x-4 item-center justify-center'>
           {authenticated && <div className='flex gap-6'>
 
-            <button className="relative text-gray-600 hover:text-gray-800">
+            <button className="relative text-gray-600 hover:text-gray-800"   onClick={() => alert("🔕 You haven't new notifications.")}
+>
               <Bell size={22} />
               <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-1">
-                3
+                0
               </span>
             </button>
           </div>}
@@ -59,7 +65,7 @@ const Navbar = () => {
               <Button variant='white'>Register</Button>
             </Link>
           </div>}
-          {authenticated && <ProfileDropDown />}
+          {authenticated && <ProfileDropDown/>}
           <button onClick={handleClick} className='md:hidden'>{isOpen ? <X /> : <Menu />}</button>
         </div>
       </div>
@@ -82,7 +88,7 @@ const Navbar = () => {
                 <Link to={`/${item.toLowerCase()}`} onClick={() => setIsOpen(false)}>{item}</Link>
               </li>
             ))}
-            {!authenticated && <div  className="hover:border-blue-500">
+            {!authenticated && <div className="hover:border-blue-500">
               <li>
                 <Link to="/login" className="block py-2" onClick={() => setIsOpen(false)}>
                   <Button variant='white'>Login</Button>

@@ -6,6 +6,7 @@ export default function HeroSection() {
 console.log(apiUrl); // Will log localhost or production IP based on environment
 
   return (
+    <div className='herodiv'>
     <section className="relative h-screen text-black flex items-center justify-center px-6 text-center overflow-hidden">
       <div className="absolute inset-0  opacity-80 blur-3xl" />
 
@@ -16,7 +17,7 @@ console.log(apiUrl); // Will log localhost or production IP based on environment
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          AI That <span className="text-sky-400">Curates</span> News For You
+          Personalized  <span className="text-sky-700">Headlines Powered </span> by Intelligence
         </motion.h1>
 
         <motion.p
@@ -25,9 +26,7 @@ console.log(apiUrl); // Will log localhost or production IP based on environment
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.8 }}
         >
-          Get real-time breaking news, AI-powered summaries, and personalized
-          recommendations. Stay informed with deep insights, trending stories,
-          and expert analysis—all in one place.
+          Get instant news updates, smart AI summaries, and tailored recommendations. Explore top headlines, trending topics, and deep insights—all in one place.
         </motion.p>
 
         <motion.div
@@ -37,10 +36,13 @@ console.log(apiUrl); // Will log localhost or production IP based on environment
           transition={{ delay: 0.4, duration: 0.6 }}
         >
           <button className="bg-sky-500 text-white px-8 py-4 text-lg font-semibold rounded-lg hover:bg-sky-600 transition-transform transform hover:scale-105 flex items-center" >
-            <Sparkles className="mr-2" size={24} /> Start Exploring
+            <a href="/"><Sparkles className="mr-2 w-50" size={24} /> Start Exploring</a>
+                        {/* <a href="/">Start</a> */}
+
           </button>
         </motion.div>
       </div>
     </section>
+    </div>
   );
 }

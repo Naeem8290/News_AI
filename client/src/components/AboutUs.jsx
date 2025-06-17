@@ -3,9 +3,10 @@ import React from 'react'
 const AboutUs = () => {
   
   return (
-    <div className='w-192 ml-10 m-10 leading-loose'>
-        <h1 className='font-bold text-2xl mt-5 mb-2'>🌟 About Us</h1>
-        <p>Welcome to <span className='font-bold'>"News AI"</span>, where staying informed is effortless and intelligent</p>
+    <div  id='aboutdiv'>
+    <div className='w-192 ml-10 leading-loose p-5'>
+        <h1 className='font-bold text-2xl pt-2 mb-2'>🌟 About Us</h1>
+        <p>Welcome to <span className='font-bold'>"AInformer"</span>, where staying informed is effortless and intelligent</p>
         <p>We harness the power of <span className='font-bold'>AI</span> to curate the latest news from <span className='font-bold'>trusted sources</span> around the globe. 
             Our smart algorithms filter through the noise, delivering <span className='font-bold'>relevant, reliable, and
             real-time news</span> tailored to your interests—all in one place.</p>
@@ -19,6 +20,7 @@ const AboutUs = () => {
             With AI handling the heavy lifting, you get to focus on the news that truly matters—no clutter, no noise.</p>
         <p>💬 Stay informed. Stay ahead.</p>
       
+    </div>
     </div>
   )
 }

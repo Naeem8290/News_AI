@@ -37,8 +37,9 @@ function Preferences() {
      Navigate('/')
   }
   return (
+    <div id='preferencesdiv'>
     <Slide>
-    <div className="h-screen bg-gray-100 flex flex-col justify-center items-center">
+    <div className="h-screen flex flex-col justify-center items-center">
       <div>
         <h1 className="text-gray-800 font-semibold text-2xl">
           Select Interests
@@ -62,6 +63,7 @@ function Preferences() {
       </div>
     </div>
     </Slide>
+    </div>
   );
 }
 
