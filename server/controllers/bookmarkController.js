@@ -1,21 +1,22 @@
 import User from '../models/User.js';
 
+
 export const addBookmark = async (req, res) => {
-  console.log('hello');
+  // console.log('hello');
   try {
     const { article } = req.body;
-    console.log(article);
-    console.log(req.params);
+    // console.log(article);
+    // console.log(req.params);
     const { id } = req.params;
 
     const user = await User.findById(id);
     if (!user) res.status(404).json({ message: 'User not found' });
-    console.log(user);
-    //check if bookmarks url already existing user.bookmarks
-    const someArticle = user.bookmarks.some((b) => b.url === article.url);
+    // console.log(user);
 
-    if (someArticle) res.status(400).json({ message: 'Already exists' });
-    console.log(article);
+    const someArticle = user.bookmarks.some((b) => b.articleId === article.articleId);
+
+    if (someArticle) return res.status(400).json({ message: 'Already exists' });
+    // console.log(article);
     user.bookmarks.push(article);
     await user.save();
     res.status(201).json({
@@ -23,6 +24,7 @@ export const addBookmark = async (req, res) => {
     });
   } catch (error) {}
 };
+
 
 export const getBookmarks = async (req, res) => {
   try {
@@ -34,6 +36,7 @@ export const getBookmarks = async (req, res) => {
     });
   } catch (error) {}
 };
+
 
 export const removeBookmark = async (req, res) => {
 

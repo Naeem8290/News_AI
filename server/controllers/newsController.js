@@ -1,6 +1,8 @@
 import User from '../models/User.js';
 import axios from 'axios';
 import News from '../models/News.js';
+
+
 export const Preferences = async (req, res) => {
   try {
     const { id } = req.params;
@@ -22,6 +24,7 @@ export const Preferences = async (req, res) => {
     });
   }
 };
+
 
 export const fetchNewsByCategory = async (req, res) => {
   try {
@@ -52,6 +55,7 @@ export const fetchNewsByCategory = async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
+
 
 export const fetchAllNews = async (req, res) => {
   console.log(req.query);

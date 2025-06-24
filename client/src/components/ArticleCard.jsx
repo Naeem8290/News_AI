@@ -13,23 +13,27 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import { Eye, Bookmark, Sparkles, Copy, Share2 } from 'lucide-react';
-import { addBookmarks, removeBookmarks } from '../redux/slice/newsSlice';
+import { addBookmark, getBookmark, removeBookmark } from '../redux/slice/bookmarkSlice.js';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import { getCookie } from '../utils/utils.js';
 
 const ArticleCard = ({ article, category }) => {
 
-  
-    const dispatch = useDispatch();
 
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(getBookmark()); // loads user's bookmarks into Redux
+  }, []);
 
-  const bookmarksList = useSelector((state) => state.news.bookmarks);
+  const bookmarksList = useSelector((state) => state.bookmark.bookmarks);
 
-const isBookmarked = useSelector((state) =>
-  state.news.bookmarks.some((b) => b.url === article.url)
-);
-
+  const isBookmarked = useSelector((state) =>
+    state.bookmark.bookmarks.some((b) =>
+      b.articleId === (article._id || article.url)
+    )
+  );
 
 
   const [opened, setOpened] = useState(false);
@@ -43,16 +47,16 @@ const isBookmarked = useSelector((state) =>
   const [randomViews, setRandomViews] = useState(0);
 
   // Update local state when Redux state changes
-useEffect(() => {
-  setLocalBookmarked(isBookmarked);
-}, [isBookmarked]);
+  useEffect(() => {
+    setLocalBookmarked(isBookmarked);
+  }, [isBookmarked]);
 
-const handleBookmarkClick = () => {
-  // Immediate local UI update
-  setLocalBookmarked(!localBookmarked);
-  // Then trigger the actual bookmark action
-  toogleBookmarks(article);
-};
+  const handleBookmarkClick = () => {
+    // Immediate local UI update
+    setLocalBookmarked(!localBookmarked);
+    // Then trigger the actual bookmark action
+    toogleBookmarks(article);
+  };
 
 
 
@@ -86,69 +90,35 @@ const handleBookmarkClick = () => {
     setTimeout(() => setCopySuccess(false), 2000);
   };
 
+
+  const userId = getCookie("id");
+
   const toogleBookmarks = (article) => {
-  const bookmarkData = {
-    articleId: article._id || article.url, // fallback to url if no _id
-    title: article.title,
-    source: article.source?.name || 'Unknown',
-    url: article.url,
-    imageUrl: article.urlToImage,
-    publishedAt: article.publishedAt,
+    const userId = getCookie("id");
+
+    const bookmarkData = {
+      articleId: article._id || article.url,
+      title: article.title,
+      source: article.source?.name || 'Unknown',
+      url: article.url,
+      imageUrl: article.urlToImage || '',
+      publishedAt: article.publishedAt || new Date().toISOString(),
+    };
+
+    const alreadyBookmarked = bookmarksList.find(
+      (b) => b.articleId === (article._id || article.url)
+    );
+
+    if (alreadyBookmarked) {
+      dispatch(removeBookmark({
+        id: userId,
+        articleId: alreadyBookmarked._id // Send Mongo ID here
+      }));
+    } else {
+      dispatch(addBookmark({ article: bookmarkData }));
+    }
+
   };
-
-  if (isBookmarked) {
-    dispatch(removeBookmarks(article.url));
-  } else {
-    dispatch(addBookmarks({ article: bookmarkData }));
-  }
-};
-
-//   const toogleBookmarks = (n) => {
-//   const data = {
-//     articleId: n._id,
-//     title: n.title,
-//     source: n.source.name,
-//     url: n.url,
-//     imageUrl: n.urlToImage,
-//     publishedAt: n.publishedAt,
-//   };
-
-//   if (isBookmarked) {
-//     dispatch(removeBookmarks(n.url)); // payload is string URL
-//   } else {
-//     dispatch(addBookmarks({ article: data })); // payload is { article: data }
-//   }
-// };
-
-
-
-
-  // const toogleBookmarks = (n) => {
-  //   console.log(n)
-  //   const data = {
-  //     article: {
-  //       articleId: n._id,
-  //       title: n.title,
-  //       source: n.source.name,
-  //       url: n.url,
-  //       imageUrl: n.urlToImage,
-  //       publishedAt: n.publishedAt
-  //     }
-  //   }
-  //   if (isBookmarked) {
-  //     dispatch(removeBookmarks(n.url));
-  //   } else {
-  //     dispatch(addBookmarks(data));
-  //   }
-  // };
-  //   if (bookmarks) {
-  //    dispatch(addBookmarks(data))
-  //   } else {
-  //    dispatch(removeBookmarks(n.url))
-  //   }
-
-  //   setBookmarks(!bookmarks);
-  // };
 
   return (
     <Card
@@ -192,58 +162,30 @@ const handleBookmarkClick = () => {
           </Flex>
 
 
-     {/* <Tooltip
-  label={isBookmarked ? 'Remove Bookmark' : 'Bookmark this article'}
-  withArrow
-  position="top"
->
-  <ActionIcon
-    onClick={() => toogleBookmarks(article)}
-    variant="light"
-    size="lg"
-    color={isBookmarked ? 'yellow' : 'gray'}
-    loading={isLoading} // optional loading state
-  >
-    <Bookmark
-      size={18}
-      fill={isBookmarked ? 'currentColor' : 'none'}
-    />
-  </ActionIcon>
-</Tooltip> */}
-
-  <Tooltip
-    label={localBookmarked ? 'Remove Bookmark' : 'Bookmark this article'}
-    withArrow
-    position="top"
-  >
-    <ActionIcon
-      onClick={handleBookmarkClick}
-      variant="light"
-      size="lg"
-      color={localBookmarked ? 'yellow' : 'gray'}
-    >
-      <Bookmark
-        size={18}
-        fill={localBookmarked ? 'currentColor' : 'none'}
-        className="transition-colors duration-200"
-      />
-    </ActionIcon>
-  </Tooltip>
-
-
-
-
-          
-          {/* <Tooltip label={isBookmarked ? 'Remove Bookmark' : 'Bookmark this article'} withArrow position="top">
-            <ActionIcon onClick={()=>toogleBookmarks(article)} variant="outline" size="sm" color={isBookmarked ? 'blue' : 'blue' }>
-              <Bookmark size={18} fill={isBookmarked ? 'currentColor' : null} />
+          <Tooltip
+            label={localBookmarked ? 'Remove Bookmark' : 'Bookmark this article'}
+            withArrow
+            position="top"
+          >
+            <ActionIcon
+              onClick={handleBookmarkClick}
+              variant="light"
+              size="lg"
+              color={localBookmarked ? 'yellow' : 'gray'}
+            >
+              <Bookmark
+                size={18}
+                fill={localBookmarked ? 'currentColor' : 'none'}
+                className="transition-colors duration-200"
+              />
             </ActionIcon>
-          </Tooltip> */}
+          </Tooltip>
+
 
           <Popover
             opened={opened}
             onChange={setOpened}
-            width={isLoading ? 350 : 500}
+            width={isLoading ? 350 : 350}
             position="bottom"
             withArrow
             shadow="md"

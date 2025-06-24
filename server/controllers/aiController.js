@@ -3,6 +3,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import dotenv from 'dotenv'
 import NewsSummary from '../models/NewsSummary.js';
 
+
 console.log(process.env.GEMINI_API_KEY);
 
 
@@ -18,11 +19,8 @@ const generateSummary = async (content) => {
 }
 
 
-
-
-
 export const newsSummarize = async (req, res) => {
-    const { url } = req.body
+    const { url , title } = req.body
     // console.log(url);
 
     const exist = await NewsSummary.findOne({ url });
@@ -54,13 +52,24 @@ export const newsSummarize = async (req, res) => {
         const newSSummary = new NewsSummary({
             url,
             summary,
+            title ,
           });
       
           await newSSummary.save();
       
 
         res.status(200).json({
-            summary, fullarticle: url
+            summary, fullarticle: url , title
         })
     } catch (error) {}
+}
+
+
+export const getSummary = async (req , res) => {
+    try {
+    const allNews = await NewsSummary.find().sort({ createdAt: -1 });
+    res.status(200).json(allNews);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 }

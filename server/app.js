@@ -16,7 +16,7 @@ import cron from 'node-cron';
 import crudRoutes from './routes/crudRoutes.js';
 
 import fetchNewsAndStore from './services/newsFetcher.js'
-// cron.schedule('*/15 * * * *', fetchNewsAndStore);
+// cron.schedule('*/31 * * * *', fetchNewsAndStore);
 
 import admin from 'firebase-admin'
 // import serviceAccount from './key/news-48af9-firebase-adminsdk-fbsvc-8f398d8c94.json'  with { type: "json" } ;
@@ -26,16 +26,9 @@ import admin from 'firebase-admin'
 const app = express();
 morgan('combined')
 
-// app.use(
-//     cors({
-//         credentials: true,
-//         origin: "https://news-ai-eight.vercel.app",
-//     })
-// );
-
 const allowedOrigins = [
   "http://localhost:5173",
-  "http://3.91.83.171"
+  "http://3.91.83.171",
 ];
 
 app.use(
@@ -51,34 +44,7 @@ app.use(
   })
 );
 
-// const allowedOrigins = [
-//   "http://localhost:5173",
-//   "http://newsaiproject.s3-website-us-east-1.amazonaws.com",
-//   "http://backend.newsaiproject.local:3000"  // <-- your new backend domain
-// ];
 
-// app.use(
-//   cors({
-//     origin: (origin, callback) => {
-//       if (!origin || allowedOrigins.includes(origin)) {
-//         callback(null, true);
-//       } else {
-//         callback(new Error("Not allowed by CORS"));
-//       }
-//     },
-//     credentials: true
-//   })
-// );
-
-
-
-
-// app.use(
-//   cors({
-//       credentials: true,
-//       origin: "http://localhost:5173",
-//   })
-// );
 
 app.set('trust proxy', 1);
 
@@ -106,62 +72,6 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
 
-
-
-//----------------------------------------------------------
-
-// const countries = ['us', 'uk', 'fr', 'in', 'it'];
-// const categories = [
-//   'health',
-//   'science',
-//   'sports',
-//   'entertainment',
-//   'politics',
-//   'business',
-// ];
-// const fetchNewsAndStore = async () => {
-//   for (let country of countries) {
-//     for (let category of categories) {
-//       const { data } = await axios.get(
-//         `https://newsapi.org/v2/top-headlines?category=${category}&country=${country}&apiKey=${process.env.NEWS_API_KEY}`
-//       );
-
-//       if (data.articles && data.articles.length > 0) {
-//         for (let d of data.articles) {
-//           const exist = await News.findOne({ title: d.title });
-
-//           if (!exist) {
-//             const newData = await News.create({
-//               content: d.content,
-//               title: d.title,
-//               author: d.author,
-//               description: d.description,
-//               url: d.url,
-//               urlToImage: d.urlToImage,
-//               category,
-//               publishedAt: d.publishedAt,
-//               country,
-//               source: {
-//                 id: d.source.id,
-//                 name: d.source.name,
-//               },
-//             });
-//             console.log(`Inserted ${d.title} [${category}-${country}]`);
-//           } else {
-//             console.log(`Already exists ${d.title}`);
-//           }
-//         }
-//       } else {
-//         console.log('no data found');
-//       }
-//     }
-//   }
-// };
-// fetchNewsAndStore();
-// cron.schedule('*/15 * * * *', fetchNewsAndStore);
-
-
-//-------------------------------------------------------
 
 app.get('/', (req,res)=>{
 res.send('homepage')

@@ -1,91 +1,105 @@
-import { createSlice , createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 // import { toast } from "sonner";
-// import { getCookie , setCookie , removeCookie} from "../../utils/utils";
+import { getCookie, setCookie, removeCookie } from "../../utils/utils";
 
 
 const initialState = {
-    loading : false ,
-    bookmarks : [] ,
-    error : null 
+  loading: false,
+  bookmarks: [],
+  // error : null ,
+  //   bookmarkHistory: [],
+
 }
 
-export const addBookmark = createAsyncThunk('bookmark/add', async ({ id, data }, { rejectWithValue }) => {
+
+export const addBookmark = createAsyncThunk(
+  '/addBookmarks',
+  async (data, { rejectWithValue }) => {
+    const id = getCookie('id');
     try {
-        const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/${id}/bookmarks`, data);
-        return res.data;
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/${id}/bookmarks`,
+        data
+      );
+      return res.data;
     } catch (error) {
-        return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     }
-});
+  }
+);
 
 
-export const getBookmark = createAsyncThunk('bookmark/get', async (id, { rejectWithValue }) => {
+export const removeBookmark = createAsyncThunk(
+  '/removeBookmarks',
+  async ({ id, articleId }, { rejectWithValue }) => {
     try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/${id}/bookmarks`);
-        return res.data;  // Return fetched data
+      const res = await axios.delete(
+        `${import.meta.env.VITE_API_URL}/api/${id}/bookmarks`,
+        {
+          data: { articleId } // ✅ Send articleId in request body
+        }
+      );
+      return { articleId }; // manually return for reducer
     } catch (error) {
-        return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     }
-});
+  }
+);
 
 
-export const removeBookmark = createAsyncThunk('bookmark/remove', async ({ id, articleId }, { rejectWithValue }) => {
+export const getBookmark = createAsyncThunk(
+  '/getBookmarks',
+  async (_, { rejectWithValue }) => {
+    const id = getCookie('id');
     try {
-        const res = await axios.delete(`${import.meta.env.VITE_API_URL}/api/${id}/bookmarks/${articleId}`);
-        return res.data;
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/${id}/bookmarks`
+      );
+      return res.data;
     } catch (error) {
-        return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     }
-});
-
-
+  }
+);
 
 
 
 const bookmarkSlice = createSlice({
-    name : "bookmark" ,
-    initialState ,
+  name: "bookmark",
+  initialState,
 
-    extraReducers : (builder) => {
-        builder.addCase(addBookmark.pending , (state) =>{
-            state.loading = true
-        }).addCase(addBookmark.fulfilled , (state , action) => {
-            state.loading = false
-            // toast.success(action.payload.message)
-            console.log(action.payload.message);
-        }).addCase(addBookmark.rejected , (state , action) => {
-            state.loading = false
-            // toast.success(action.payload.message)
-            console.log(action.payload.message);
-        })
-        .addCase(getBookmark.pending , (state) =>{
-            state.loading = true
-        }).addCase(getBookmark.fulfilled , (state , action) => {
-            state.loading = false
-            // toast.success(action.payload.message)
-            console.log(action.payload.message);
-            state.bookmarks = action.payload.bookmarks;
-            console.log(action.payload.bookmarks);
-            
-        }).addCase(getBookmark.rejected , (state , action) => {
-            state.loading = false
-            // toast.success(action.payload.message)
-            console.log(action);
-        })
-        .addCase(removeBookmark.pending , (state) =>{
-            state.loading = true
-        }).addCase(removeBookmark.fulfilled , (state , action) => {
-            state.loading = false
-            // toast.success(action.payload.message)
-            console.log(action.payload.message);
-        }).addCase(removeBookmark.rejected , (state , action) => {
-            state.loading = false
-            // toast.success(action.payload.message)
-            console.log(action.payload.message);
-        })
+  extraReducers: (builder) => {
+    builder
+      .addCase(addBookmark.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(addBookmark.fulfilled, (state, action) => {
+        console.log(action.payload);
+        state.loading = false;
+      })
+      .addCase(addBookmark.rejected, (state, action) => {
+        console.log(action.payload);
+        state.loading = false;
+      })
+      .addCase(removeBookmark.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(removeBookmark.fulfilled, (state, action) => {
+        console.log(action.payload);
+        const deletedId = action.payload.articleId;
+        state.bookmarks = state.bookmarks.filter(b => b._id !== deletedId);
+        state.loading = false;
+      })
+      .addCase(removeBookmark.rejected, (state, action) => {
+        console.log(action.payload);
+        state.loading = false;
+      }).addCase(getBookmark.fulfilled, (state, action) => {
+        // console.log(action.payload)
+        state.bookmarks = action.payload.data
+      })
 
-    }
+  }
 
 })
 

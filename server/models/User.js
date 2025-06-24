@@ -1,23 +1,24 @@
 import mongoose from 'mongoose';
 
 const BookmarkSchema = new mongoose.Schema({
-  articleId: String, 
+  articleId: String,
   title: String,
-  source: String,
+  description: String,
   url: String,
   imageUrl: String,
   publishedAt: Date,
-  addedAt: { type: Date, default: Date.now }, 
+  addedAt: { type: Date, default: Date.now },
 });
 
 const ReadingHistorySchema = new mongoose.Schema({
   articleId: String,
   title: String,
+  description: String,
   source: String,
   url: String,
   imageUrl: String,
   publishedAt: Date,
-  readAt: { type: Date, default: Date.now }, 
+  readAt: { type: Date, default: Date.now },
 })
 
 const UserSchema = new mongoose.Schema({
@@ -26,7 +27,7 @@ const UserSchema = new mongoose.Schema({
   password: { type: String, required: true },
   preferences: [String],
   bookmarks: [BookmarkSchema],
-  readingHistory: [ReadingHistorySchema], 
+  readingHistory: [ReadingHistorySchema],
 
   role: {
     type: String,

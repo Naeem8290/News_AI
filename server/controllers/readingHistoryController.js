@@ -1,5 +1,6 @@
 import User from '../models/User.js';
 
+
 export const getReadingHistory = async (req, res) => {
   try {
     const { id } = req.params;
@@ -10,6 +11,7 @@ export const getReadingHistory = async (req, res) => {
     });
   } catch (error) {}
 };
+
 
 export const clearReadingHistory = async (req, res) => {
   try {
@@ -28,15 +30,16 @@ export const clearReadingHistory = async (req, res) => {
   } catch (error) {}
 };
 
+
 export const addReadingHistory = async (req, res) => {
   try {
-    console.log(req.body)
+    // console.log(req.body)
     const { id } = req.params;
     const { article } = req.body; 
-    console.log(article);
+    // console.log(article);
     const user = await User.findById(id);
     if (!user) res.status(404).json({ message: 'User not found' });
-    console.log(user);
+    // console.log(user);
     user.readingHistory = user.readingHistory.filter(
       (rh) => rh.url !== article.url
     );

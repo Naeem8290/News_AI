@@ -114,7 +114,7 @@ const Register = () => {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5 }}
-                className="w-96 rounded-2xl p-6 shadow-md bg-white"
+                className="md:w-96 w-full mx-5 rounded-2xl p-6 shadow-md bg-white"
             >
                 <h1 className="text-center text-2xl font-bold mb-4">Register</h1>
                 <form className="space-y-6 w-full" onSubmit={handleSubmit(onSubmit)}>
@@ -183,7 +183,7 @@ const Register = () => {
 
                     <p className='text-sm'>By signing up, you agree to our <a href="" className='text-blue-400'>Terms</a>, <a href="" className='text-blue-400'>Privacy Policy</a> and <a href="" className='text-blue-400'>Cookies Policy</a>.</p>
                     <Button type='submit' fullWidth>{loading ? <Loader size={16} color='white' /> : 'SignUp'}</Button>
-                    <p className='flex justify-center'>Have an account? <a href="/login" className='text-blue-500'> Log in</a></p>
+                    <p className='flex justify-center'>Have an account?<a href="/login" className='text-blue-500 ml-2'>Log in</a></p>
                 </form>
             </motion.div>
         </div>

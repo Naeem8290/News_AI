@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
-import { Button , Loader } from '@mantine/core';
+import { Button, Loader } from '@mantine/core';
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { login , signInWithGoogle } from '../redux/slice/authSlice.js';
+import { login, signInWithGoogle } from '../redux/slice/authSlice.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import GoogleIcon from '../components/GoogleIcon.jsx';
 
 const Login = () => {
@@ -45,23 +45,23 @@ const Login = () => {
     }
 
 
-    const { authenticated , preferences , loading} = useSelector((state) => state.auth)
+    const { authenticated, preferences, loading } = useSelector((state) => state.auth)
     // console.log(authenticated)
     // console.log(preferences);
     // console.log(preferences.length);
 
-    
-    
+
+
     const navigate = useNavigate()
 
     useEffect(() => {
         if (authenticated && preferences.length > 0) {
-            navigate('/') ;
+            navigate('/');
         } else if (authenticated && preferences.length <= 0) {
-            navigate('/preferences') ;
+            navigate('/preferences');
 
         }
-    }, [authenticated]) ;
+    }, [authenticated]);
 
 
 
@@ -71,7 +71,7 @@ const Login = () => {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5 }}
-                className="w-96 rounded-2xl p-6 shadow-md bg-white"
+                className="w-full rounded-2xl p-6 shadow-md bg-white md:w-96 mx-5"
             >
                 <h1 className="text-center text-2xl font-bold mb-4">Login</h1>
                 <form className="space-y-6 w-full" onSubmit={handleSubmit(onSubmit)}>
@@ -103,9 +103,11 @@ const Login = () => {
                     <p className='text-sm'>Don't have an account? <a href="/register" className='text-blue-600'>Register</a></p>
                     <Button fullWidth type='submit'>{loading ? <Loader size={16} color='white' /> : 'Login'}</Button>
 
-                    <Button fullWidth variant="outline" onClick={()=>Dispatch(signInWithGoogle())} leftSection={<GoogleIcon/>}>Login with Google</Button>
+                    <Button fullWidth variant="outline" onClick={() => Dispatch(signInWithGoogle())} leftSection={<GoogleIcon />}>Login with Google</Button>
 
-                    <p><a href="/forgot-password" className='flex justify-center'>Forgot password?</a></p>
+                    <Link to="/forgot-password" className='flex justify-center'>
+                        Forgot password?
+                    </Link>
                 </form>
             </motion.div>
         </div>

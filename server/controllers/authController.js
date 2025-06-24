@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt' ;
 import jwt from 'jsonwebtoken' ;
 import admin from 'firebase-admin';
 
+
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -56,6 +57,7 @@ export const login = async (req, res) => {
     });
   }
 };
+
 
 export const verify = async(req , res) => {
   // console.log('verify wali',req.user);
@@ -121,10 +123,6 @@ export const register = async (req, res) => {
     });
   }
 };
-
-
-
-
 
 
 export const googleLogin = async (req, res) => {

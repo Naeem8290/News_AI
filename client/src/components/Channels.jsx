@@ -39,7 +39,7 @@ const Channels = () => {
   const handleDelete = (id) => {
     dispatch(deleteUser(id)).then(() => dispatch(fetchUsers())); // Fetch updated list
   };
-
+// CRUD OPERATION
   return (
     <div>
       <h2>User List</h2>

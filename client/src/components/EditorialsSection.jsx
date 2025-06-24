@@ -4,29 +4,64 @@ const featuredArticles = [
   {
     id: 1,
     title: 'The Future of AI in Journalism',
-    author: 'John Doe',
-    date: 'Feb 28, 2025',
+    author: 'Vishal Singh',
+    date: 'Mar 28, 2025',
     excerpt:
       'AI is transforming the way news is reported and consumed. What does the future hold for human journalists?',
-    image: 'https://source.unsplash.com/600x400/?ai,news',
+    image: '/TheFutureofAIinJournalism.jpg',
+    read: 'https://medium.com/@lrovinalti/how-ai-is-transforming-journalism-and-television-broadcasting-e05740a941bd'
+
   },
   {
     id: 2,
     title: 'Bias in AI-Powered News',
-    author: 'Jane Smith',
-    date: 'Feb 25, 2025',
+    author: 'Vaibhav Kumawat',
+    date: 'Mar 25, 2025',
     excerpt:
-      'How do AI algorithms shape the news we see, and can they be truly unbiased?',
-    image: 'https://source.unsplash.com/600x400/?news,writing',
+      "How do AI algorithms shape the news we see, and can they be truly unbiased in today's digital landscape?",
+    image: '/BiasinAI-PoweredNews.webp',
+    read: 'https://theconversation.com/what-will-a-robot-make-of-your-resume-the-bias-problem-with-using-ai-in-job-recruitment-231174'
   },
   {
     id: 3,
     title: 'The Ethics of AI-Generated News',
-    author: 'Alice Brown',
-    date: 'Feb 22, 2025',
+    author: 'Rahul Kumar',
+    date: 'Mar 22, 2025',
     excerpt:
       'As AI-generated articles become more common, ethical concerns arise about misinformation and credibility.',
-    image: 'https://source.unsplash.com/600x400/?technology,writing',
+    image: '/TheEthicsofAI-GeneratedNews.png',
+    read: 'https://aicontentfy.com/en/blog/ethics-of-ai-generated-fake-news'
+  },
+  {
+    id: 4,
+    title: 'AI Is Writing the News Now',
+    author: 'Prakash Jaat',
+    date: 'Mar 20, 2025',
+    excerpt:
+      'AI-generated articles raise questions about accuracy, bias, and the future role of human journalists.',
+    image: '/AIIsWritingtheNewsNow.jpg',
+    read: 'https://www.responsesource.com/blog/journalism-and-ai-the-benefits-and-risks/'
+
+  },
+  {
+    id: 5,
+    title: 'The Dark Side of AI News',
+    author: 'Mamta Kumawat',
+    date: 'Mar 18, 2025',
+    excerpt:
+      'Concerns grow over misinformation, deepfakes, manipulation, and lack of transparency in AI-powered news platforms.',
+    image: '/TheDarkSideofAINews.jpeg',
+    read: 'https://home.cib.natixis.com/articles/the-dark-side-of-ai'
+  },
+  {
+    id: 6,
+    title: 'Can AI Make News Safer?',
+    author: 'Salman Khan',
+    date: 'Mar 15, 2025',
+    excerpt:
+      'Experts debate whether AI can detect fake news better than humans—or make truth even harder to identify.',
+    image: '/CanAIMakeNewsSafer.jpg',
+    read: 'https://dlabs.ai/blog/can-artificial-intelligence-make-us-safer/'
   },
 ];
 
@@ -62,7 +97,7 @@ const EditorialsSection = () => {
               </p>
               <p className="text-gray-700">{article.excerpt}</p>
               <button className="mt-4 text-sky-400 font-semibold hover:underline">
-                Read More →
+                <a href={article.read} target='_blank'>Read More →</a>
               </button>
             </div>
           </motion.div>

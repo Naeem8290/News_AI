@@ -1,11 +1,14 @@
-import mongoose from 'mongoose' ;
+import mongoose from 'mongoose';
 
 
 const NewsSummarySchema = new mongoose.Schema({
-    url : {type : String , required : true , unique : true} ,
-    summary : {type : String , required : true},
-    createdAt : {type : Date , default : Date.now()}
-})
+    title: { type: String, },
+    url: { type: String, required: true, unique: true },
+    summary: { type: String, required: true }
+}, {
+    timestamps: true
+});
+
 
 const NewsSummary = mongoose.model('newssummary', NewsSummarySchema);
-export default NewsSummary ;
+export default NewsSummary;

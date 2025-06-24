@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Pagination, Skeleton, Badge } from '@mantine/core';
 import { TrendingUp, Briefcase, Cpu, Volleyball, Landmark } from 'lucide-react';
-import { fetchAllNews ,addReadingHistory } from '../redux/slice/newsSlice';
+import { fetchAllNews } from '../redux/slice/newsSlice';
+import { addReadingHistory } from '../redux/slice/readingHistorySlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 function NewsPage() {
@@ -29,23 +30,23 @@ function NewsPage() {
   }, [currentPage]);
 
   const handleAddHistory = (n) => {
-  //    articleId: String,
-  // title: String,
-  // source: String,
-  // url: String,
-  // imageUrl: String,
-  // publishedAt: Date,
-  const data = {
-    article : {
-      articleId : n._id ,
-      title : n.title ,
-      source : n.source.name ,
-      url : n.url ,
-      imageUrl : n.urlToImage,
-      publishedAt : n.publishedAt
+    //    articleId: String,
+    // title: String,
+    // source: String,
+    // url: String,
+    // imageUrl: String,
+    // publishedAt: Date,
+    const data = {
+      article: {
+        articleId: n._id,
+        title: n.title,
+        source: n.source.name,
+        url: n.url,
+        imageUrl: n.urlToImage,
+        publishedAt: n.publishedAt
+      }
     }
-  }
-  dispatch(addReadingHistory(data))
+    dispatch(addReadingHistory(data))
   }
   return (
     <div id='newsdiv' className="flex min-h-screen">
@@ -69,60 +70,60 @@ function NewsPage() {
         <p className="text-md font-semibold  text-gray-800 mt-2">
           Stay updated with the latest headlines.
         </p>
- 
-  <div>
-    {totalCount > 0 ? <span className='text-gray-800 font-semibold'>Showing {totalCount} Results</span> : null}
-  </div>
-      
+
+        <div>
+          {totalCount > 0 ? <span className='text-gray-800 font-semibold'>Showing {totalCount} Results</span> : null}
+        </div>
+
         <input
           type="text"
           placeholder="Search news..."
           onChange={(e) => setSearch(e.target.value)}
-          className="w-80 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 mt-4 bg-white"
+          className="w-72 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 mt-4 bg-white"
         />
 
         <div className="mt-6 space-y-6">
           {loading
             ? [...Array(5)].map((_, index) => (
-                <Skeleton key={index} height={100} radius="md" />
-              ))
+              <Skeleton key={index} height={100} radius="md" />
+            ))
             : news?.map((n, i) => (
-                <div
-                  key={i}
-                  className="p-4 flex border border-gray-100 rounded-lg bg-white"
-                >
-                  <div className="flex flex-col flex-1 gap-2">
-                    <a
-                      href={n.url}
-                      onClick={()=> handleAddHistory(n)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xl text-gray-800 font-semibold hover:underline"
-                    >
-                      {n.title}
-                    </a>
-                    <p className="text-gray-700 text-md">{n.description}</p>
-                    <div className="flex items-center gap-2 mt-2">
-                      <Badge color="blue" variant="light">
-                        {n.source?.name || 'Unknown'}
-                      </Badge>
-                      <Badge color="green" variant="light">
-                        {n.author || 'Unknown'}
-                      </Badge>
-                      <Badge color="gray" variant="light">
-                        {new Date(n.publishedAt).toLocaleDateString()}
-                      </Badge>
-                    </div>
+              <div
+                key={i}
+                className="p-4 flex border border-gray-100 rounded-lg bg-white"
+              >
+                <div className="flex flex-col flex-1 gap-2">
+                  <a
+                    href={n.url}
+                    onClick={() => handleAddHistory(n)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xl text-gray-800 font-semibold hover:underline"
+                  >
+                    {n.title}
+                  </a>
+                  <p className="text-gray-700 text-md">{n.description}</p>
+                  <div className="flex items-center gap-2 mt-2">
+                    <Badge color="blue" variant="light">
+                      {n.source?.name || 'Unknown'}
+                    </Badge>
+                    <Badge color="green" variant="light">
+                      {n.author || 'Unknown'}
+                    </Badge>
+                    <Badge color="gray" variant="light">
+                      {new Date(n.publishedAt).toLocaleDateString()}
+                    </Badge>
                   </div>
-                  {n.urlToImage && (
-                    <img
-                      className="h-32 w-32 object-cover rounded-md ml-4"
-                      src={n.urlToImage}
-                      alt="news"
-                    />
-                  )}
                 </div>
-              ))}
+                {n.urlToImage && (
+                  <img
+                    className="h-32 w-32 object-cover rounded-md ml-4"
+                    src={n.urlToImage}
+                    alt="news"
+                  />
+                )}
+              </div>
+            ))}
         </div>
 
         <div className="mt-10 flex justify-center">

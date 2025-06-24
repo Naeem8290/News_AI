@@ -44,7 +44,6 @@ export const deleteUser = createAsyncThunk("users/deleteUser", async (_) => {
 
 
 
-
 const initialState= {
   loading: false,
   data: [],

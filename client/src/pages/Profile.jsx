@@ -14,20 +14,24 @@ import { getCookie } from '../utils/utils';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
-import { getBookmarks, getReadingHistory } from '../redux/slice/newsSlice';
+// import { getBookmarks, getReadingHistory } from '../redux/slice/newsSlice';
+import { getBookmark } from '../redux/slice/bookmarkSlice';
+import { getReadingHistory } from '../redux/slice/readingHistorySlice';
 import { Delete, DeleteIcon, EllipsisVertical, Trash } from 'lucide-react';
 import List from '../components/List';
 const Profile = () => {
   const [bookmarksCount, setBookmarksCount] = useState(5);
   const [readingHistoryCount, setReadingHistoryCount] = useState(12);
-  const { readingHistory , bookmarks } = useSelector((state) => state.news);
+  // const { readingHistory , bookmarks } = useSelector((state) => state.news);
+  const {readingHistory} = useSelector((state) => state.readingHistory)
+  const {bookmarks} = useSelector((state) => state.bookmark)
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getReadingHistory());
-    dispatch(getBookmarks())
+    dispatch(getBookmark())
   }, []);
   return (
-    <motion.div id='profilediv'>
+    <motion.div id='profilediv' className='py-10'>
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
@@ -44,7 +48,7 @@ const Profile = () => {
             color='black'
               size={100}
               radius="xl"
-              src="https://via.placeholder.com/100"
+              // src="https://via.placeholder.com/100"
               alt="User Avatar"
             />
             <div>
@@ -61,9 +65,6 @@ const Profile = () => {
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.4, ease: 'easeOut' }}
             >
-              {/* <Badge color="blue" size="lg">
-                📌 Bookmarks: {bookmarksCount}
-              </Badge> */}
                <Badge color="blue" size="lg">
                 📌 Bookmarks:{' '}
                 {bookmarks.length > 0 ? bookmarks.length : 0}
@@ -123,6 +124,7 @@ const Profile = () => {
             <Tabs.Panel value="preferences" className="p-4">
               <Text className="text-gray-700">No preferences set.</Text>
             </Tabs.Panel> */}
+            
             <Tabs.Panel value="reading-history" className="p-4">
             <List data={readingHistory} type="history" />
             </Tabs.Panel>

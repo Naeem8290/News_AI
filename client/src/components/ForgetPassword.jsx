@@ -8,24 +8,24 @@ const ForgetPassword = () => {
     const [message, setMessage] = useState("");
 
     const handleSubmit = async (e) => {
-        // e.preventDefault();
-        // setLoading(true);
-        // setMessage("");
+        e.preventDefault();
+        setLoading(true);
+        setMessage("");
 
-        // try {
-        //     const { data } = await axios.post("http://localhost:5000/api/auth/forgot-password", { email });
-        //     setMessage(data.message);
-        // } catch (error) {
-        //     setMessage(error.response?.data?.message || "Something went wrong");
-        // } finally {
-        //     setLoading(false);
-        // }
+        try {
+            const { data } = await axios.post("http://localhost:5000/api/auth/forgot-password", { email });
+            setMessage(data.message);
+        } catch (error) {
+            setMessage(error.response?.data?.message || "Something went wrong");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
-        <Container size={420} my={40}>
+        <Container className="p-20" size={420} my={40}>
             <Title align="center">Forgot Password</Title>
-            <Text align="center" size="sm" color="dimmed" mt="xs">
+            <Text align="center" size="sm" color="black" mt="xs">
                 Enter your email to receive a password reset link.
             </Text>
 

@@ -39,11 +39,6 @@ export const signUp = createAsyncThunk('/register', async (data, {rejectWithValu
 })
 
 
-
-
-
-
-
 export const login = createAsyncThunk('/login', async (data, {rejectWithValue}) => {
     try {
         const res = await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`,
@@ -56,7 +51,6 @@ export const login = createAsyncThunk('/login', async (data, {rejectWithValue}) 
 
     }
 })
-
 
 
 export const signInWithGoogle = createAsyncThunk('/google-login', async () => {
