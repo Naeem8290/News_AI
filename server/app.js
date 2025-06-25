@@ -50,7 +50,9 @@ app.set('trust proxy', 1);
 
 app.use(cookieParser())
 app.use(express.json());
-dotenv.config();
+// dotenv.config();
+dotenv.config({ path: '.env.production' });
+
 
 dbConnect();
 
