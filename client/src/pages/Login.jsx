@@ -100,7 +100,12 @@ const Login = () => {
                         />
                     </div>
                     {errors.password && <p className='text-sm text-red-500'>{errors.password.message}</p>}
-                    <p className='text-sm'>Don't have an account? <a href="/register" className='text-blue-600'>Register</a></p>
+                    <p className='text-sm'>
+                        Don't have an account?{' '}
+                        <Link to="/register" className='text-blue-600'>
+                            Register
+                        </Link>
+                    </p>
                     <Button fullWidth type='submit'>{loading ? <Loader size={16} color='white' /> : 'Login'}</Button>
 
                     <Button fullWidth variant="outline" onClick={() => Dispatch(signInWithGoogle())} leftSection={<GoogleIcon />}>Login with Google</Button>

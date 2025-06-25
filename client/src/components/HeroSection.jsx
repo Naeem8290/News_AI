@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function HeroSection() {
   //   const apiUrl = import.meta.env.VITE_API_URL;
@@ -36,8 +37,10 @@ export default function HeroSection() {
             transition={{ delay: 0.4, duration: 0.6 }}
           >
             <button className="bg-sky-500 text-white px-8 py-4 text-lg font-semibold rounded-lg hover:bg-sky-600 transition-transform transform hover:scale-105 flex items-center" >
-              <a href="/home"><Sparkles className="mr-2 w-50" size={24} /> Start Exploring</a>
-
+              <Link to="/home" className="flex items-center text-white">
+                <Sparkles className="mr-2 w-5 h-5" />
+                Start Exploring
+              </Link>
             </button>
           </motion.div>
         </div>

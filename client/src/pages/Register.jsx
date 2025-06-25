@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Loader } from '@mantine/core';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Link } from 'react-router-dom';
 
 
 const Register = () => {
@@ -72,8 +73,8 @@ const Register = () => {
             message: 'Password do not match',
             path: ['confirmPassword'],
         });
-        
-        
+
+
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: zodResolver(registerSchema),
@@ -96,14 +97,14 @@ const Register = () => {
     //     formData.append("email", data.email);
     //     formData.append("password", data.password);
     //     formData.append("pimg", pimg);
-    
+
     //     const response = await Dispatch(signUp(formData));
     //     if (response.payload?.pimg) {
     //         document.cookie = `pimg=${response.payload.pimg}; path=/;`;
     //     }
     // };
-    
-    
+
+
 
 
 
@@ -183,8 +184,13 @@ const Register = () => {
 
                     <p className='text-sm'>By signing up, you agree to our <a href="" className='text-blue-400'>Terms</a>, <a href="" className='text-blue-400'>Privacy Policy</a> and <a href="" className='text-blue-400'>Cookies Policy</a>.</p>
                     <Button type='submit' fullWidth>{loading ? <Loader size={16} color='white' /> : 'SignUp'}</Button>
-                    <p className='flex justify-center'>Have an account?<a href="/login" className='text-blue-500 ml-2'>Log in</a></p>
-                </form>
+                    <p className='flex justify-center text-sm'>
+                        Have an account?
+                        <Link to="/login" className='text-blue-500 ml-2'>
+                            Log in
+                        </Link>
+                    </p>
+                    </form>
             </motion.div>
         </div>
     )
