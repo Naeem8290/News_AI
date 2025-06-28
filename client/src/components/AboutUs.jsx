@@ -39,7 +39,7 @@ const AboutUs = () => {
       <div className="md:w-192 mx-10 py-10 leading-loose">
         <h1 className="font-bold text-2xl pt-2 mb-2">🌟 About Us</h1>
 
-        <MotionText text={`Welcome to "AInformer", where staying informed is effortless and intelligent`} />
+        <MotionText text={`Welcome to "AI Feed", where staying informed is effortless and intelligent`} />
         <MotionText text={`We harness the power of AI to curate the latest news from trusted sources around the globe. Our smart algorithms filter through the noise, delivering relevant, reliable, and real-time news tailored to your interests—all in one place.`} />
 
         <h2 className="font-bold text-xl mt-5 mb-2">🚀 Why Choose Us?</h2>

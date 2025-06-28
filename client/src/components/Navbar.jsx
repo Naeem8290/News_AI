@@ -30,7 +30,7 @@ const Navbar = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
           className='text-2xl font-semibold' id='logon'>
-          AInformer
+          AI Feed
           {/* <img id='logo' src="/logos.png" alt="" /> */}
         </motion.h1>
 

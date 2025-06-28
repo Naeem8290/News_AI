@@ -26,6 +26,9 @@ import admin from 'firebase-admin'
 const app = express();
 morgan('combined')
 
+app.options('*', cors()); // for handling preflight
+
+
 const allowedOrigins = [
   "http://localhost:5173",
   "http://3.91.83.171",

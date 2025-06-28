@@ -19,8 +19,7 @@ const Footer = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h2 id="logoh" className="text-2xl font-bold">AInformer
-            {/* <img id="logos" src="/logos.png" alt="AInformer" /> */}
+          <h2 id="logoh" className="text-2xl font-bold">AI Feed
           </h2>
           <p className="text-gray-400">
             Stay updated with the latest AI-powered news summaries and insights.
@@ -78,7 +77,7 @@ const Footer = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        © {new Date().getFullYear()} AInformer. All Rights Reserved.
+        © {new Date().getFullYear()} AI Feed. All Rights Reserved.
       </motion.div>
     </footer>
   );

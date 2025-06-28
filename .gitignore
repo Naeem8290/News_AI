@@ -2,6 +2,6 @@ server/node_modules
 client/node_modules
 
 **/.env
-**/.env.production
+# **/.env.production
 
 server/key/*.json

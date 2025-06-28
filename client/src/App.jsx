@@ -30,6 +30,7 @@ import Contact from './components/Contact';
 import NotFound from './pages/NotFound';
 import ReadingHistory from './pages/ReadingHistory';
 import NewsSummary from './pages/NewsSummary';
+import ScrollToTop from './components/ScrollToTop';
 
 const App = () => {
 
@@ -44,6 +45,7 @@ const App = () => {
     <div>
       <Navbar />
       <Toaster />
+       <ScrollToTop />
       <Suspense fallback={<LoadingSpinner />}>
         <Routes>
           <Route element={<ProtectedRoutes />}>
