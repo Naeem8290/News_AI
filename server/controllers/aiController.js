@@ -11,19 +11,19 @@ const genAI = new GoogleGenerativeAI('AIzaSyCwVbJNH1Dni6TcSqWwxiMavGjIskYBq50');
 
 
 const generateSummary = async (content) => {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-    const response = await model.generateContent(`please summarize these content ${content}`)
-    // console.log(response.response.text())
-    return response.response.text();
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+  const response = await model.generateContent(`please summarize these content ${content}`)
+  // console.log(response.response.text())
+  return response.response.text();
 
 }
 
 
 export const newsSummarize = async (req, res) => {
-    const { url , title } = req.body
-    // console.log(url);
+  const { url, title } = req.body
+  // console.log(url);
 
-    const exist = await NewsSummary.findOne({ url });
+  const exist = await NewsSummary.findOne({ url });
 
   if (exist) {
     return res.status(200).json({
@@ -32,41 +32,50 @@ export const newsSummarize = async (req, res) => {
     });
   }
 
-    let browser;
-    try {
-        browser = await puppeteer.launch({ headless: true });
-        console.log(browser)
-        const page = await browser.newPage();
-        console.log(page)
+  let browser;
+  try {
+    browser = await puppeteer.launch({
+      headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    });
+    console.log(browser)
+    const page = await browser.newPage();
+    console.log(page)
 
-        await page.goto(url, { waitUntil: 'domcontentloaded' });
+    await page.goto(url, { waitUntil: 'domcontentloaded' });
 
-        const extractedText = await page.evaluate(() => {
-            return Array.from(document.querySelectorAll('p')).map((p) => p.innerText).join('')
-        });
+    const extractedText = await page.evaluate(() => {
+      return Array.from(document.querySelectorAll('p')).map((p) => p.innerText).join('')
+    });
 
-        // console.log(extractedText);
+    // console.log(extractedText);
 
-        const summary = await generateSummary(extractedText);
+    const summary = await generateSummary(extractedText);
 
-        const newSSummary = new NewsSummary({
-            url,
-            summary,
-            title ,
-          });
-      
-          await newSSummary.save();
-      
+    const newSSummary = new NewsSummary({
+      url,
+      summary,
+      title,
+    });
 
-        res.status(200).json({
-            summary, fullarticle: url , title
-        })
-    } catch (error) {}
+    await newSSummary.save();
+
+
+    res.status(200).json({
+      summary, fullarticle: url, title
+    })
+  } catch (error) {
+    console.error("❌ Error calling Gemini:", err.message);
+    res.status(500).json({ error: "Failed to summarize" });
+
+  } finally {
+    if (browser) await browser.close();
+  }
+
 }
 
 
-export const getSummary = async (req , res) => {
-    try {
+export const getSummary = async (req, res) => {
+  try {
     const allNews = await NewsSummary.find().sort({ createdAt: -1 });
     res.status(200).json(allNews);
   } catch (error) {
