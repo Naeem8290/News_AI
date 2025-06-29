@@ -26,7 +26,6 @@ import admin from 'firebase-admin'
 const app = express();
 morgan('combined')
 
-app.options('*', cors()); // for handling preflight
 
 
 const allowedOrigins = [
@@ -34,18 +33,44 @@ const allowedOrigins = [
   "http://3.91.83.171",
 ];
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true
-  })
-);
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+
+// 👇 Fix: use the same config for preflight requests
+app.options('*', cors(corsOptions));
+
+
+
+// app.options('*', cors()); // for handling preflight
+
+
+// const allowedOrigins = [
+//   "http://localhost:5173",
+//   "http://3.91.83.171",
+// ];
+
+// app.use(
+//   cors({
+//     origin: (origin, callback) => {
+//       if (!origin || allowedOrigins.includes(origin)) {
+//         callback(null, true);
+//       } else {
+//         callback(new Error("Not allowed by CORS"));
+//       }
+//     },
+//     credentials: true
+//   })
+// );
 
 
 

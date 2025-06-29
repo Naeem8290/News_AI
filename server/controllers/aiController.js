@@ -35,13 +35,30 @@ export const newsSummarize = async (req, res) => {
   let browser;
   try {
     browser = await puppeteer.launch({
-      headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      headless: true,
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-gpu',
+        '--disable-features=site-per-process'
+      ],
     });
+
     console.log(browser)
     const page = await browser.newPage();
     console.log(page)
 
-    await page.goto(url, { waitUntil: 'domcontentloaded' });
+    await page.setUserAgent(
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36"
+    );
+
+    try {
+      await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
+    } catch (err) {
+      console.error('Failed to load URL:', err.message);
+      return res.status(500).json({ error: 'Failed to load the article' });
+    }
 
     const extractedText = await page.evaluate(() => {
       return Array.from(document.querySelectorAll('p')).map((p) => p.innerText).join('')
@@ -64,7 +81,7 @@ export const newsSummarize = async (req, res) => {
       summary, fullarticle: url, title
     })
   } catch (error) {
-    console.error("❌ Error calling Gemini:", err.message);
+    console.error("❌ Error calling Gemini:", error.message);
     res.status(500).json({ error: "Failed to summarize" });
 
   } finally {
